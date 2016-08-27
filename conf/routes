@@ -1,0 +1,28 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+#Vista de la página inicial, por ahora no es necesaria?
+#GET     /                           controllers.HomeController.index
+
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+# ProductController
+GET     /products                   controllers.ProductController.getProducts
+GET     /products/:id               controllers.ProductController.getProduct(id: Long)
+PUT     /products/:id               controllers.ProductController.updateProduct(id: Long)
+DELETE  /products/:id               controllers.ProductController.deleteProduct(id: Long)
+POST    /products                   controllers.ProductController.createProduct
+
+#Item routes
+GET     /items                      controllers.ItemController.getItems
+GET     /items/:id               controllers.ItemController.getItem(id: Long)
+PUT     /items/:id               controllers.ItemController.updateItem(id: Long)
+DELETE  /items/:id               controllers.ItemController.deleteItem(id: Long)
+POST    /items                      controllers.ItemController.createItem
+
+#WishList routes
+POST    /wishlists                  controllers.WishListController.createWishList
+PUT     /wishlists/:id              controllers.WishListController.updateWishList(id: Long)
+DELETE  /wishlists/:id              controllers.WishListController.deteleWishList(id: Long)
+GET     /wishlists/:id              controllers.WishListController.getWishList(id: Long)
+GET     /wishlists                  controllers.WishListController.getWishLists
