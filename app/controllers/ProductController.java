@@ -3,7 +3,7 @@ package controllers;
 import dispatchers.AkkaDispatcher;
 import java.util.concurrent.CompletableFuture;
 import static play.libs.Json.toJson;
-import models.ProductEntity;
+
 import akka.dispatch.MessageDispatcher;
 import play.mvc.*;
 import java.util.concurrent.CompletionStage;

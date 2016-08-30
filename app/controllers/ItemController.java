@@ -3,12 +3,9 @@ package controllers;
 import akka.dispatch.MessageDispatcher;
 import com.fasterxml.jackson.databind.JsonNode;
 import dispatchers.AkkaDispatcher;
-import models.ItemEntity;
-import models.ProductEntity;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import scala.xml.PrettyPrinter;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
