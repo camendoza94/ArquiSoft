@@ -1,7 +1,6 @@
 package models;
 
 import com.avaje.ebean.Model;
-import sun.management.Sensor;
 
 import javax.persistence.*;
 import java.util.Date;
