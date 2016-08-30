@@ -25,16 +25,12 @@ public class PozoEntity extends Model{
     @JoinColumn(name = "campo_id")
     private CampoEntity campo;
 
-    @OneToMany(mappedBy = "pozo")
-    private List<ReporteEntity> reportes;
-
     public PozoEntity() {
     }
 
-    public PozoEntity(int estado, CampoEntity campo, List<ReporteEntity> reportes) {
+    public PozoEntity(int estado, CampoEntity campo) {
         this.estado = estado;
         this.campo = campo;
-        this.reportes = reportes;
     }
 
     public Long getId() {
@@ -61,21 +57,12 @@ public class PozoEntity extends Model{
         this.campo = campo;
     }
 
-    public List<ReporteEntity> getReportes() {
-        return reportes;
-    }
-
-    public void setReportes(List<ReporteEntity> reportes) {
-        this.reportes = reportes;
-    }
-
     @Override
     public String toString() {
         return "PozoEntity{" +
                 "id=" + id +
-        ", estado="+ estado+
-        ", campo="+campo.toString()+
-        ", reportes="+reportes.toString()+
+                ", estado=" + estado +
+                ", campo=" + campo.toString() +
                 '}';
     }
 }

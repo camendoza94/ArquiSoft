@@ -27,31 +27,27 @@ public class CampoEntity extends Model{
     //private RegionEntity region;
 
     //TODO relación entre Usuarios y campo
-    //@OneToOne(fetch=FetchType.LAZY, optional=false)
-    //@JoinColumn(name="jefeproduccion_id")
-    //private UsuarioEntity jefeProduccion;
+    @OneToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="jefeproduccion_id")
+    private UsuarioEntity jefeProduccion;
 
-    //@OneToOne(fetch=FetchType.LAZY, optional=false)
-    //@JoinColumn(name="jefecampo_id")
-    //private UsuarioEntity jefeCampo;
+    @OneToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="jefecampo_id")
+    private UsuarioEntity jefeCampo;
 
     @OneToMany(mappedBy = "campo")
     private List<PozoEntity> pozos;
-
-    @OneToMany(mappedBy = "campo")
-    private List<ReporteEntity> reportes;
 
     public CampoEntity() {
 
     }
 
-    public CampoEntity(String nombre, double latitud, double longitud, List<PozoEntity> pozos, List<ReporteEntity> reportes) {
+    public CampoEntity(String nombre, double latitud, double longitud, List<PozoEntity> pozos) {
 
         this.nombre = nombre;
         this.latitud = latitud;
         this.longitud = longitud;
         this.pozos = pozos;
-        this.reportes = reportes;
     }
 
     public Long getId() {
@@ -90,18 +86,7 @@ public class CampoEntity extends Model{
         return pozos;
     }
 
-    public void setPozos(List<PozoEntity> pozos) {
-        this.pozos = pozos;
-    }
-
-    public List<ReporteEntity> getReportes() {
-        return reportes;
-    }
-
-    public void setReportes(List<ReporteEntity> reportes) {
-        this.reportes = reportes;
-    }
-
+    public void setPozos(List<PozoEntity> pozos) { this.pozos = pozos; }
 
     @Override
     public String toString() {
@@ -111,8 +96,6 @@ public class CampoEntity extends Model{
         ", latitud="+latitud+
         ", longitud="+longitud+
         ", pozos="+pozos.toString()+
-        ", reportes="+reportes.toString()+
-
                 '}';
     }
 }
