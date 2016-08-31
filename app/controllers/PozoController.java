@@ -9,6 +9,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -20,14 +22,73 @@ public class PozoController extends Controller {
      * Obtención de todos los campos por generación de petición GET /pozos
      * @return Los pozos
      */
-    public CompletionStage<Result> getPozos() {
+    public CompletionStage<Result> getPozos(String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
         return CompletableFuture.
                 supplyAsync(
                         () -> {
-                            return PozoEntity
-                                    .FINDER.all();
+                            if(periodo != null){
+
+                                //Keys: periodo
+                                //Values: (diario, semanal, mensual, trimestral, semestral y anual)
+                                List<PozoEntity> respuesta = null;
+
+                                if (periodo.equals("diario"))
+                                {
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusDays(1);
+                                    respuesta = PozoEntity.FINDER.where()
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                }else if (periodo.equals("semanal")){
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusWeeks(1);
+                                    respuesta = PozoEntity.FINDER.where()
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                }
+                                else if (periodo.equals("mensual"))
+                                {
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(1);
+                                    respuesta = PozoEntity.FINDER.where()
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                }
+                                else if (periodo.equals("trimestral"))
+                                {
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(3);
+                                    respuesta = PozoEntity.FINDER.where()
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                }
+                                else if (periodo.equals("semestral"))
+                                {
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(6);
+                                    respuesta = PozoEntity.FINDER.where()
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                }
+                                else if (periodo.equals("anual"))
+                                {
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(12);
+                                    respuesta = PozoEntity.FINDER.where()
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                }else{
+
+                                    respuesta = PozoEntity.FINDER.all();
+                                }
+                                return respuesta;
+
+                            }
+                            else{
+
+                                return PozoEntity
+                                        .FINDER.all();
+                            }
                         }
                         , jdbcDispatcher)
                 .thenApply(
@@ -127,13 +188,77 @@ public class PozoController extends Controller {
      * @param id
      * @return El pozo obtenido
      */
-    public CompletionStage<Result> getPozo(Long id) {
+    public CompletionStage<Result> getPozo(Long id, String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
         return CompletableFuture.
                 supplyAsync(
                         () -> {
-                            return PozoEntity.FINDER.byId(id);
+
+                            if(periodo != null){
+
+                                //Keys: periodo
+                                //Values: (diario, semanal, mensual, trimestral, semestral y anual)
+                                PozoEntity respuesta = null;
+
+                                if (periodo.equals("diario"))
+                                {
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusDays(1);
+                                    respuesta = PozoEntity.FINDER.where().eq("id", id)
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                }else if (periodo.equals("semanal")){
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusWeeks(1);
+                                    respuesta = PozoEntity.FINDER.where().eq("id", id)
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                }
+                                else if (periodo.equals("mensual"))
+                                {
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(1);
+                                    PozoEntity.FINDER.where().eq("id", id)
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                }
+                                else if (periodo.equals("trimestral"))
+                                {
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(3);
+                                    PozoEntity.FINDER.where().eq("id", id)
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                }
+                                else if (periodo.equals("semestral"))
+                                {
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(6);
+                                    PozoEntity.FINDER.where().eq("id", id)
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                }
+                                else if (periodo.equals("anual"))
+                                {
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(12);
+                                    PozoEntity.FINDER.where().eq("id", id)
+                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                }
+                                else
+                                    {
+
+                                        return PozoEntity.FINDER.byId(id);
+                                    }
+                                return respuesta;
+
+                            }
+                            else
+                                {
+                                    return PozoEntity.FINDER.byId(id);
+                            }
+
+
                         }
                         , jdbcDispatcher)
                 .thenApply(
