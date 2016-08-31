@@ -34,7 +34,7 @@ POST    /pozos                   controllers.PozoController.createPozo
 
 GET     /sensores                controllers.SensorController.getSensores
 GET     /sensores/:id            controllers.SensorController.getSensor(id: Long)
-GET     /sensores/mediciones     controllers.SensorController.getMedidas
+GET     /mediciones              controllers.SensorController.getMedidas
 GET     /sensores/:id/mediciones controllers.SensorController.getMedidasSensor(id: Long)
 PUT     /sensores/:id            controllers.SensorController.updateSensor(id: Long)
 PUT     /sensores/mediciones/:id controllers.SensorController.updateMedicion(id: Long)
@@ -46,4 +46,4 @@ POST    /sensores/:id/mediciones controllers.SensorController.addMedida(id: Long
 
 #EmergenciaController
 
-PUT     /sensor/:id/emergencia   controllers.EmergenciaController.addEmergencia(id: Long)
+POST     /sensores/:id/emergencia   controllers.EmergenciaController.addEmergencia(id: Long)

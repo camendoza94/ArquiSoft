@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,7 +22,7 @@ public class SensorEntity extends Model{
     private Long id;
     private String nombre;
     private int tipo_sensor;
-    @OneToMany(mappedBy = "sensor")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<MedicionEntity> mediciones;
 
 
@@ -64,7 +65,7 @@ public class SensorEntity extends Model{
 
     public void setMediciones(List<MedicionEntity> mediciones){ this.mediciones=mediciones;}
 
-    public void addMedicion(MedicionEntity medicion){ this.mediciones.add(medicion);}
+    public void addMedicion(MedicionEntity medicion){ this.mediciones.add(medicion); medicion.setSensor(this);}
 
     @Override
     public String toString() {

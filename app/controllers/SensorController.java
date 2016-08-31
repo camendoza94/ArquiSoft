@@ -94,9 +94,7 @@ public class SensorController extends Controller  {
                     return ok();
                 }
         ).thenApply(
-                sensorEntities -> {
-                    return ok(Json.toJson(sensorEntities));
-                }
+                statusHeader -> statusHeader
         );
     }
 
@@ -107,9 +105,15 @@ public class SensorController extends Controller  {
         return CompletableFuture.supplyAsync(
                 ()->{
                     SensorEntity s=SensorEntity.FINDER.byId(id);
+                    System.out.println("bien");
                     s.addMedicion(list);
-                    s.save();
                     list.save();
+                    System.out.println("agrega medicion al sensor");
+                    //list.setSensor(s);
+                    //System.out.println("agrega sensor a la medicion");
+                    s.update();
+                    System.out.println("guarda sensor");
+                    //list.save();
                     return list;
                 }
         ).thenApply(
@@ -153,7 +157,6 @@ public class SensorController extends Controller  {
 
     public CompletionStage<Result> getMedidasSensor(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
-
         return CompletableFuture.
                 supplyAsync(
                         () -> {
@@ -188,13 +191,13 @@ public class SensorController extends Controller  {
         return CompletableFuture.supplyAsync(
                 ()->{
                     list.setId(id);
+                    System.out.println("va a update");
                     list.update();
+                    System.out.println("termina update");
                     return ok();
                 }
         ).thenApply(
-                medicionEntities -> {
-                    return ok(Json.toJson(medicionEntities));
-                }
+                statusHeader -> statusHeader
         );
     }
 }

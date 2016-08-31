@@ -32,8 +32,8 @@ public class EmergenciaController extends SensorController  {
                 ()->{
                     SensorEntity s=SensorEntity.FINDER.byId(id);
                     s.addMedicion(list);
-                    s.save();
                     list.save();
+                    s.update();
                     return list;
                 }
         ).thenApply(

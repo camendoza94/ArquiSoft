@@ -20,7 +20,7 @@ create table medicionentity (
   id                        bigint not null,
   valor                     float,
   fecha                     timestamp,
-  sensor_id                 bigint not null,
+  sensor_entity_id          bigint not null,
   constraint pk_medicionentity primary key (id))
 ;
 
@@ -69,8 +69,8 @@ alter table campoentity add constraint fk_campoentity_jefeProduccion_2 foreign k
 create index ix_campoentity_jefeProduccion_2 on campoentity (jefeproduccion_id);
 alter table campoentity add constraint fk_campoentity_jefeCampo_3 foreign key (jefecampo_id) references usuarioentity (id);
 create index ix_campoentity_jefeCampo_3 on campoentity (jefecampo_id);
-alter table medicionentity add constraint fk_medicionentity_sensor_4 foreign key (sensor_id) references sensorentity (id);
-create index ix_medicionentity_sensor_4 on medicionentity (sensor_id);
+alter table medicionentity add constraint fk_medicionentity_sensor_4 foreign key (sensor_entity_id) references sensorentity (id);
+create index ix_medicionentity_sensor_4 on medicionentity (sensor_entity_id);
 alter table pozoentity add constraint fk_pozoentity_campo_5 foreign key (campo_id) references campoentity (id);
 create index ix_pozoentity_campo_5 on pozoentity (campo_id);
 

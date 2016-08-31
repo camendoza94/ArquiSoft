@@ -1,6 +1,9 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.ConcurrencyMode;
+import com.avaje.ebean.annotation.EntityConcurrencyMode;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,29 +17,30 @@ public class MedicionEntity extends Model{
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE,generator = "Medicion")
     private Long id;
-    private double valor;
+    private Double valor;
+    @Temporal(TemporalType.DATE)
     private Date fecha;
-    @ManyToOne(fetch=FetchType.LAZY, optional=false)
-    @JoinColumn(name="sensor_id")
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)@JsonBackReference
+    @JoinColumn(name="sensor_entity_id")
     private SensorEntity sensor;
 
 
     public MedicionEntity() {
         this.id=null;
-        this.valor =-1;
-        fecha=null;
+        this.valor =-1.0;
+        //fecha=null;
     }
 
     public MedicionEntity(Long id, double valor) {
         this.id = id;
         this.valor = valor;
-        fecha = new Date(System.currentTimeMillis());
+        //fecha = new Date(System.currentTimeMillis());
     }
 
     public MedicionEntity(Long id, double valor, Date fecha) {
         this.id = id;
         this.valor = valor;
-        this.fecha = fecha;
+        this.fecha = fecha==null?new Date(System.currentTimeMillis()):fecha;
     }
 
     public Long getId() {
@@ -67,7 +71,7 @@ public class MedicionEntity extends Model{
     public String toString() {
         return "MedicionEntity{" +
                 "id=" + id +
-                ", valor='" + valor + "\'"+
-                ", fecha="+fecha.getTime()+"}";
+                ", valor='" + valor + "\'"+"}";
+                //", fecha="+fecha.getTime()+"}";
     }
 }
