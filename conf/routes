@@ -13,3 +13,19 @@ GET     /usuarios/:id               controllers.UsuarioController.getUsuario(id:
 PUT     /usuarios/:id               controllers.UsuarioController.updateUsuario(id: Long)
 DELETE  /usuarios/:id               controllers.UsuarioController.deleteUsuario(id: Long)
 POST    /usuarios                   controllers.UsuarioController.createUsuario
+
+#CampoController
+
+GET     /campos                   controllers.CampoController.getCampos
+GET     /campos/:id               controllers.CampoController.getCampo(id: Long)
+PUT     /campos/:id               controllers.CampoController.updateCampo(id: Long)
+DELETE  /campos/:id               controllers.CampoController.deleteCampo(id: Long)
+POST    /campos                   controllers.CampoController.createCampo
+
+#PozoController
+
+GET     /pozos                   controllers.PozoController.getPozos
+GET     /pozos/:id               controllers.PozoController.getPozo(id: Long)
+PUT     /pozos/:id               controllers.PozoController.updatePozo(id: Long)
+DELETE  /pozos/:id               controllers.PozoController.deletePozo(id: Long)
+POST    /pozos                   controllers.PozoController.createPozo
