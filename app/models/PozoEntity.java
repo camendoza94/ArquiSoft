@@ -17,9 +17,8 @@ public class PozoEntity extends Model{
 
     private int estado;
 
-    //TODO relación entre sensores y pozo
     //@OneToMany(mappedBy = "pozo")
-    //private SensorEntity[] sensores;
+    //private List<SensorEntity> sensores;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "campo_id")

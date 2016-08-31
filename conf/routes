@@ -24,8 +24,8 @@ POST    /campos                   controllers.CampoController.createCampo
 
 #PozoController
 
-GET     /pozos                   controllers.PozoController.getPozos
-GET     /pozos/:id               controllers.PozoController.getPozo(id: Long)
+GET     /pozos                   controllers.PozoController.getPozos(periodo:String)
+GET     /pozos/:id               controllers.PozoController.getPozo(id: Long, periodo:String)
 PUT     /pozos/:id               controllers.PozoController.updatePozo(id: Long)
 DELETE  /pozos/:id               controllers.PozoController.deletePozo(id: Long)
 POST    /pozos                   controllers.PozoController.createPozo
