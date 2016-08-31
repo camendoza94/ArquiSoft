@@ -19,7 +19,7 @@ public class RegionEntity extends Model{
 
     private double area;
 
-    @OneToMany(fetch=FetchType.LAZY, optional=false)
+    @OneToMany(mappedBy = "region")
     private List<CampoEntity> campos;
 
     public RegionEntity() {
@@ -57,7 +57,7 @@ public class RegionEntity extends Model{
     }
 
     public List<CampoEntity> getCampos() {
-        return campos;                                                                                                                                                                                                                                                                                                                                                                                                                          s;
+        return campos;
     }
 
     public void setCamposEntity(List<CampoEntity> campo) {

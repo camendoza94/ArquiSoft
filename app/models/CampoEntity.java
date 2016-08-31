@@ -21,12 +21,10 @@ public class CampoEntity extends Model{
 
     private double longitud;
 
-    //TODO relación entre región y campo
-    //@ManyToOne(fetch=FetchType.LAZY, optional=false)
-    //@JoinColumn(name="region_id")
-    //private RegionEntity region;
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="region_id")
+    private RegionEntity region;
 
-    //TODO relación entre Usuarios y campo
     @OneToOne(fetch=FetchType.LAZY, optional=false)
     @JoinColumn(name="jefeproduccion_id")
     private UsuarioEntity jefeProduccion;
