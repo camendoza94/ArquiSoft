@@ -29,3 +29,21 @@ GET     /pozos/:id               controllers.PozoController.getPozo(id: Long)
 PUT     /pozos/:id               controllers.PozoController.updatePozo(id: Long)
 DELETE  /pozos/:id               controllers.PozoController.deletePozo(id: Long)
 POST    /pozos                   controllers.PozoController.createPozo
+
+#SensorController
+
+GET     /sensores                controllers.SensorController.getSensores
+GET     /sensores/:id            controllers.SensorController.getSensor(id: Long)
+GET     /sensores/mediciones     controllers.SensorController.getMedidas
+GET     /sensores/:id/mediciones controllers.SensorController.getMedidasSensor(id: Long)
+PUT     /sensores/:id            controllers.SensorController.updateSensor(id: Long)
+PUT     /sensores/mediciones/:id controllers.SensorController.updateMedicion(id: Long)
+DELETE  /sensores/:id            controllers.SensorController.deleteSensor(id: Long)
+DELETE  /sensores/mediciones/:id controllers.SensorController.deleteMedida(id: Long)
+POST    /sensores                controllers.SensorController.createSensor
+POST    /sensores/:id/mediciones controllers.SensorController.addMedida(id: Long)
+
+
+#EmergenciaController
+
+PUT     /sensor/:id/emergencia   controllers.EmergenciaController.addEmergencia(id: Long)

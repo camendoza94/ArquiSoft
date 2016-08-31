@@ -69,7 +69,7 @@ public class SensorController extends Controller  {
                 );
     }
 
-    public CompletionStage<Result> deteleSensor(Long id) {
+    public CompletionStage<Result> deleteSensor(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         return CompletableFuture.
                 supplyAsync(
@@ -167,7 +167,7 @@ public class SensorController extends Controller  {
                 );
     }
 
-    public CompletionStage<Result> deteleMedida(Long id) {
+    public CompletionStage<Result> deleteMedida(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         return CompletableFuture.
                 supplyAsync(
