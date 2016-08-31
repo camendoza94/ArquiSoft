@@ -26,14 +26,10 @@ public class UsuarioController extends Controller {
 
         return CompletableFuture.
                 supplyAsync(
-                        () -> {
-                            return UsuarioEntity.FINDER.all();
-                        }
+                        () -> UsuarioEntity.FINDER.all()
                         , jdbcDispatcher)
                 .thenApply(
-                        productEntities -> {
-                            return ok(toJson(productEntities));
-                        }
+                        productEntities -> ok(toJson(productEntities))
                 );
     }
 
@@ -51,9 +47,7 @@ public class UsuarioController extends Controller {
                     return usuario;
                 }
         ).thenApply(
-                productEntity -> {
-                    return ok(Json.toJson(productEntity));
-                }
+                productEntity -> ok(Json.toJson(productEntity))
         );
     }
 
@@ -65,15 +59,24 @@ public class UsuarioController extends Controller {
     public CompletionStage<Result> updateUsuario(Long id){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nUsuario = request().body().asJson();
-        UsuarioEntity usuario = Json.fromJson( nUsuario , UsuarioEntity.class ) ;
+        UsuarioEntity usuario = Json.fromJson(nUsuario, UsuarioEntity.class);
+        UsuarioEntity old = UsuarioEntity.FINDER.byId(id);
         return CompletableFuture.supplyAsync(
-                ()->{
-                    usuario.setId(id);
-                    usuario.update();
-                    return ok();
+                () -> {
+                    if (old != null) {
+                        usuario.setId(id);
+                        usuario.update();
+                        return usuario;
+                    }
+                    return null;
                 }
         ).thenApply(
-                statusHeader -> statusHeader
+                usuarioEntity -> {
+                    if (usuarioEntity == null) {
+                        return notFound();
+                    }
+                    return ok(toJson(usuarioEntity));
+                }
         );
     }
 
@@ -82,15 +85,20 @@ public class UsuarioController extends Controller {
      * @param id
      * @return OK de que el usuario fue borrado
      */
-    public CompletionStage<Result> deleteUsuario(Long id){
+    public CompletionStage<Result> deleteUsuario(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         return CompletableFuture.supplyAsync(
                 () -> {
-                    UsuarioEntity.FINDER.deleteById(id);
-                    return ok();
+                    UsuarioEntity.FINDER.ref(id).delete();
+                    return UsuarioEntity.FINDER.byId(id);
                 })
                 .thenApply(
-                        statusHeader -> statusHeader
+                        usuarioEntity -> {
+                            if (usuarioEntity != null) {
+                                return notFound();
+                            }
+                            return ok(toJson(usuarioEntity));
+                        }
                 );
     }
 
@@ -104,13 +112,14 @@ public class UsuarioController extends Controller {
 
         return CompletableFuture.
                 supplyAsync(
-                        () -> {
-                            return UsuarioEntity.FINDER.byId(id);
-                        }
+                        () -> UsuarioEntity.FINDER.byId(id)
                         , jdbcDispatcher)
                 .thenApply(
-                        productEntity -> {
-                            return ok(toJson(productEntity));
+                        usuarioEntity -> {
+                            if(usuarioEntity == null){
+                                return notFound();
+                            }
+                            return ok(toJson(usuarioEntity));
                         }
                 );
     }
