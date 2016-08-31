@@ -14,6 +14,14 @@ PUT     /usuarios/:id               controllers.UsuarioController.updateUsuario(
 DELETE  /usuarios/:id               controllers.UsuarioController.deleteUsuario(id: Long)
 POST    /usuarios                   controllers.UsuarioController.createUsuario
 
+#RegionController
+
+GET     /regiones                   controllers.RegionController.getRegiones
+GET     /regiones/:id               controllers.RegionController.getRegion(id: Long)
+PUT     /regiones/:id               controllers.RegionController.updateRegion(id: Long)
+DELETE  /regiones/:id               controllers.RegionController.deleteRegion(id: Long)
+POST    /regiones                   controllers.RegionController.createRegion
+
 #CampoController
 
 GET     /campos                   controllers.CampoController.getCampos

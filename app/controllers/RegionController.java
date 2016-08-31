@@ -95,12 +95,12 @@ public class RegionController extends Controller {
 
         JsonNode nRegion = request().body().asJson();
         RegionEntity region = Json.fromJson( nRegion , RegionEntity.class ) ;
-        RegionEntity regionViejo = RegionEntity.FINDER.byId(id);
+        RegionEntity regionVieja = RegionEntity.FINDER.byId(id);
         return CompletableFuture.supplyAsync(
                 ()->{
-                    if(regionViejo == null)
+                    if(regionVieja == null)
                     {
-                        return regionViejo;
+                        return regionVieja;
                     }else
                     {   region.setId(id);
                         region.update();
