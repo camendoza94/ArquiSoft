@@ -9,6 +9,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -39,20 +40,20 @@ public class PozoController extends Controller {
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
                                     LocalDateTime primerFecha = LocalDateTime.now().minusDays(1);
                                     respuesta = PozoEntity.FINDER.where()
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
                                 }else if (periodo.equals("semanal")){
 
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
                                     LocalDateTime primerFecha = LocalDateTime.now().minusWeeks(1);
                                     respuesta = PozoEntity.FINDER.where()
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
                                 }
                                 else if (periodo.equals("mensual"))
                                 {
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
                                     LocalDateTime primerFecha = LocalDateTime.now().minusMonths(1);
                                     respuesta = PozoEntity.FINDER.where()
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
                                 }
                                 else if (periodo.equals("trimestral"))
                                 {
@@ -60,7 +61,7 @@ public class PozoController extends Controller {
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
                                     LocalDateTime primerFecha = LocalDateTime.now().minusMonths(3);
                                     respuesta = PozoEntity.FINDER.where()
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
                                 }
                                 else if (periodo.equals("semestral"))
                                 {
@@ -68,15 +69,15 @@ public class PozoController extends Controller {
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
                                     LocalDateTime primerFecha = LocalDateTime.now().minusMonths(6);
                                     respuesta = PozoEntity.FINDER.where()
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
                                 }
                                 else if (periodo.equals("anual"))
                                 {
 
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
-                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(12);
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusYears(1);
                                     respuesta = PozoEntity.FINDER.where()
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findList();
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
                                 }else{
 
                                     respuesta = PozoEntity.FINDER.all();
@@ -206,44 +207,44 @@ public class PozoController extends Controller {
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
                                     LocalDateTime primerFecha = LocalDateTime.now().minusDays(1);
                                     respuesta = PozoEntity.FINDER.where().eq("id", id)
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
                                 }else if (periodo.equals("semanal")){
 
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
                                     LocalDateTime primerFecha = LocalDateTime.now().minusWeeks(1);
                                     respuesta = PozoEntity.FINDER.where().eq("id", id)
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
                                 }
                                 else if (periodo.equals("mensual"))
                                 {
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
                                     LocalDateTime primerFecha = LocalDateTime.now().minusMonths(1);
-                                    PozoEntity.FINDER.where().eq("id", id)
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                    respuesta = PozoEntity.FINDER.where().eq("id", id)
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
                                 }
                                 else if (periodo.equals("trimestral"))
                                 {
 
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
                                     LocalDateTime primerFecha = LocalDateTime.now().minusMonths(3);
-                                    PozoEntity.FINDER.where().eq("id", id)
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                    respuesta = PozoEntity.FINDER.where().eq("id", id)
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
                                 }
                                 else if (periodo.equals("semestral"))
                                 {
 
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
                                     LocalDateTime primerFecha = LocalDateTime.now().minusMonths(6);
-                                    PozoEntity.FINDER.where().eq("id", id)
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                    respuesta = PozoEntity.FINDER.where().eq("id", id)
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
                                 }
                                 else if (periodo.equals("anual"))
                                 {
 
                                     LocalDateTime ultimaFecha= LocalDateTime.now();
-                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(12);
-                                    PozoEntity.FINDER.where().eq("id", id)
-                                            .between("sensores.mediciones.fecha", primerFecha, ultimaFecha).findUnique();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusYears(1);
+                                    respuesta = PozoEntity.FINDER.where().eq("id", id)
+                                            .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
                                 }
                                 else
                                     {

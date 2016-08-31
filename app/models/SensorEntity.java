@@ -25,6 +25,9 @@ public class SensorEntity extends Model{
     @OneToMany(cascade = CascadeType.ALL)
     private List<MedicionEntity> mediciones;
 
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    private PozoEntity pozo;
+
 
     public SensorEntity() {
         this.id=null;
@@ -66,6 +69,15 @@ public class SensorEntity extends Model{
     public void setMediciones(List<MedicionEntity> mediciones){ this.mediciones=mediciones;}
 
     public void addMedicion(MedicionEntity medicion){ this.mediciones.add(medicion); medicion.setSensor(this);}
+
+
+    public PozoEntity getPozo() {
+        return pozo;
+    }
+
+    public void setPozo(PozoEntity pozo) {
+        this.pozo = pozo;
+    }
 
     @Override
     public String toString() {
