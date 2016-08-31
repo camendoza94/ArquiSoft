@@ -16,6 +16,9 @@ public class MedicionEntity extends Model{
     private Long id;
     private double valor;
     private Date fecha;
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="sensor_id")
+    private SensorEntity sensor;
 
 
     public MedicionEntity() {
@@ -55,6 +58,10 @@ public class MedicionEntity extends Model{
     public Date getFecha() {return fecha;}
 
     public void setFecha(Date fecha){ this.fecha=fecha;}
+
+    public SensorEntity getSensor(){ return sensor; }
+
+    public void setSensor(SensorEntity sensor){ this.sensor=sensor;}
 
     @Override
     public String toString() {
