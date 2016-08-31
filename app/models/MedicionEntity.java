@@ -16,30 +16,24 @@ public class MedicionEntity extends Model{
     private Long id;
     private double valor;
     private Date fecha;
-    @ManyToOne(fetch=FetchType.LAZY, optional=false)
-    @JoinColumn(name="sensor_id")
-    private SensorEntity sensor;
 
 
     public MedicionEntity() {
         this.id=null;
         this.valor =-1;
         fecha=null;
-        sensor=null;
     }
 
     public MedicionEntity(Long id, double valor) {
         this.id = id;
         this.valor = valor;
         fecha = new Date(System.currentTimeMillis());
-        sensor=null;
     }
 
-    public MedicionEntity(Long id, double valor, Date fecha, SensorEntity sensor) {
+    public MedicionEntity(Long id, double valor, Date fecha) {
         this.id = id;
         this.valor = valor;
         this.fecha = fecha;
-        this.sensor=sensor;
     }
 
     public Long getId() {
@@ -61,10 +55,6 @@ public class MedicionEntity extends Model{
     public Date getFecha() {return fecha;}
 
     public void setFecha(Date fecha){ this.fecha=fecha;}
-
-    public SensorEntity getSensor(){ return sensor; }
-
-    public void setSensor(SensorEntity sensor){ this.sensor=sensor;}
 
     @Override
     public String toString() {
