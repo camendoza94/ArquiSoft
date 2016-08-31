@@ -8,6 +8,9 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -19,14 +22,72 @@ public class CampoController extends Controller {
      * Obtención de todos los campos por generación de petición GET /campos
      * @return Los campos
      */
-    public CompletionStage<Result> getCampos() {
+    public CompletionStage<Result> getCampos(String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
         return CompletableFuture.
                 supplyAsync(
-                        () -> {
+                        () -> {if(periodo != null){
+
+                            //Keys: periodo
+                            //Values: (diario, semanal, mensual, trimestral, semestral y anual)
+                            List<CampoEntity> respuesta = null;
+
+                            if (periodo.equals("diario"))
+                            {
+                                LocalDateTime ultimaFecha= LocalDateTime.now();
+                                LocalDateTime primerFecha = LocalDateTime.now().minusDays(1);
+                                respuesta = CampoEntity.FINDER.where()
+                                        .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
+                            }else if (periodo.equals("semanal")){
+
+                                LocalDateTime ultimaFecha= LocalDateTime.now();
+                                LocalDateTime primerFecha = LocalDateTime.now().minusWeeks(1);
+                                respuesta = CampoEntity.FINDER.where()
+                                        .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
+                            }
+                            else if (periodo.equals("mensual"))
+                            {
+                                LocalDateTime ultimaFecha= LocalDateTime.now();
+                                LocalDateTime primerFecha = LocalDateTime.now().minusMonths(1);
+                                respuesta = CampoEntity.FINDER.where()
+                                        .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
+                            }
+                            else if (periodo.equals("trimestral"))
+                            {
+
+                                LocalDateTime ultimaFecha= LocalDateTime.now();
+                                LocalDateTime primerFecha = LocalDateTime.now().minusMonths(3);
+                                respuesta = CampoEntity.FINDER.where()
+                                        .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
+                            }
+                            else if (periodo.equals("semestral"))
+                            {
+
+                                LocalDateTime ultimaFecha= LocalDateTime.now();
+                                LocalDateTime primerFecha = LocalDateTime.now().minusMonths(6);
+                                respuesta = CampoEntity.FINDER.where()
+                                        .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
+                            }
+                            else if (periodo.equals("anual"))
+                            {
+
+                                LocalDateTime ultimaFecha= LocalDateTime.now();
+                                LocalDateTime primerFecha = LocalDateTime.now().minusYears(1);
+                                respuesta = CampoEntity.FINDER.where()
+                                        .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
+                            }else{
+
+                                respuesta = CampoEntity.FINDER.all();
+                            }
+                            return respuesta;
+
+                        }
+                        else{
+
                             return CampoEntity
                                     .FINDER.all();
+                        }
                         }
                         , jdbcDispatcher)
                 .thenApply(
@@ -126,13 +187,76 @@ public class CampoController extends Controller {
      * @param id
      * @return El campo obtenido
      */
-    public CompletionStage<Result> getCampo(Long id) {
+    public CompletionStage<Result> getCampo(Long id, String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
         return CompletableFuture.
                 supplyAsync(
                         () -> {
-                            return CampoEntity.FINDER.byId(id);
+                            if(periodo != null){
+
+                                //Keys: periodo
+                                //Values: (diario, semanal, mensual, trimestral, semestral y anual)
+                                CampoEntity respuesta = null;
+
+                                if (periodo.equals("diario"))
+                                {
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusDays(1);
+                                    respuesta = CampoEntity.FINDER.where().eq("id", id)
+                                            .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
+                                }else if (periodo.equals("semanal")){
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusWeeks(1);
+                                    respuesta = CampoEntity.FINDER.where().eq("id", id)
+                                            .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
+                                }
+                                else if (periodo.equals("mensual"))
+                                {
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(1);
+                                    respuesta = CampoEntity.FINDER.where().eq("id", id)
+                                            .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
+                                }
+                                else if (periodo.equals("trimestral"))
+                                {
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(3);
+                                    respuesta = CampoEntity.FINDER.where().eq("id", id)
+                                            .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
+                                }
+                                else if (periodo.equals("semestral"))
+                                {
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusMonths(6);
+                                    respuesta = CampoEntity.FINDER.where().eq("id", id)
+                                            .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
+                                }
+                                else if (periodo.equals("anual"))
+                                {
+
+                                    LocalDateTime ultimaFecha= LocalDateTime.now();
+                                    LocalDateTime primerFecha = LocalDateTime.now().minusYears(1);
+                                    respuesta = CampoEntity.FINDER.where().eq("id", id)
+                                            .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findUnique();
+                                }
+                                else
+                                {
+
+                                    return CampoEntity.FINDER.byId(id);
+                                }
+                                return respuesta;
+
+                            }
+                            else
+                            {
+                                return CampoEntity.FINDER.byId(id);
+                            }
+
+
                         }
                         , jdbcDispatcher) 
                 .thenApply(
