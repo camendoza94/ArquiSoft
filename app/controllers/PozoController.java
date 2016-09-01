@@ -103,13 +103,16 @@ public class PozoController extends Controller {
      * Creación de un nuevo pozo según los parametros de la petición POST /pozos
      * @return el pozos agregado
      */
-    public CompletionStage<Result> createPozo(){
+    public CompletionStage<Result> createPozo(Long id){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nPozo = request().body().asJson();
         PozoEntity pozo = Json.fromJson( nPozo , PozoEntity.class ) ;
         return CompletableFuture.supplyAsync(
                 ()->{
+                    CampoEntity campo=CampoEntity.FINDER.byId(id);
+                    campo.addPozo(pozo);
                     pozo.save();
+                    campo.update();
                     return pozo;
                 }
         ).thenApply(

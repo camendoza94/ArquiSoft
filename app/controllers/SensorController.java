@@ -44,20 +44,10 @@ public class SensorController extends Controller  {
         SensorEntity list = Json.fromJson( nSensor , SensorEntity.class ) ;
         return CompletableFuture.supplyAsync(
                 ()->{
-
                     PozoEntity pozo=PozoEntity.FINDER.byId(id);
-                    System.out.println("bien");
-                    
+                    pozo.addSensor(list);
                     list.save();
-                    System.out.println("agrega medicion al sensor");
-                    //list.setSensor(s);
-                    //System.out.println("agrega sensor a la medicion");
-                    s.update();
-                    System.out.println("guarda sensor");
-                    //list.save();
-                    return list;
-
-                    list.save();
+                    pozo.update();
                     return list;
                 }
         ).thenApply(
