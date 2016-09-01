@@ -24,8 +24,8 @@ POST    /regiones                   controllers.RegionController.createRegion
 
 #CampoController
 
-GET     /campos                   controllers.CampoController.getCampos
-GET     /campos/:id               controllers.CampoController.getCampo(id: Long)
+GET     /campos                   controllers.CampoController.getCampos(periodo: String ?="noVal")
+GET     /campos/:id               controllers.CampoController.getCampo(id: Long, periodo: String ?="noVal")
 PUT     /campos/:id               controllers.CampoController.updateCampo(id: Long)
 DELETE  /campos/:id               controllers.CampoController.deleteCampo(id: Long)
 POST    /campos                   controllers.CampoController.createCampo
