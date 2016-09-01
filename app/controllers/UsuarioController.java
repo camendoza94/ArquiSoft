@@ -37,7 +37,7 @@ public class UsuarioController extends Controller {
      * Creación de un nuevo usuario según los parametros de la petición POST /usuarios
      * @return el usuario agregado
      */
-    public CompletionStage<Result> createUsuario(){
+    public CompletionStage<Result> createUsuario(Long id){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nUsuario = request().body().asJson();
         UsuarioEntity usuario = Json.fromJson( nUsuario , UsuarioEntity.class ) ;
