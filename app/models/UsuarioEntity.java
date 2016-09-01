@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
@@ -16,8 +17,21 @@ public class UsuarioEntity extends Model{
 
     private String nombre;
 
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonBackReference
+    @JoinColumn(name = "campo_id")
+    private CampoEntity campo;
+
     public UsuarioEntity(){
 
+    }
+
+    public CampoEntity getCampo() {
+        return campo;
+    }
+
+    public void setCampo(CampoEntity campo) {
+        this.campo = campo;
     }
 
     public UsuarioEntity(Long id, String nombre){

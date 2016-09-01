@@ -18,12 +18,14 @@ public class RegionEntity extends Model{
 
     private double area;
 
-    @OneToMany(mappedBy = "region")
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
     private List<CampoEntity> campos;
 
     public RegionEntity() {
 
     }
+    public void addCampo(CampoEntity campo){ this.campos.add(campo); campo.setRegion(this);}
+
 
     public RegionEntity(String nombre, double area, List<CampoEntity> campos) {
         this.nombre = nombre;
