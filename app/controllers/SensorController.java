@@ -7,6 +7,7 @@ import akka.dispatch.MessageDispatcher;
 import com.fasterxml.jackson.databind.JsonNode;
 import dispatchers.AkkaDispatcher;
 import models.MedicionEntity;
+import models.PozoEntity;
 import models.SensorEntity;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -37,13 +38,16 @@ public class SensorController extends Controller  {
                         }
                 );
     }
-    public CompletionStage<Result> createSensor(){
+    public CompletionStage<Result> createSensor(Long id){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nSensor = request().body().asJson();
         SensorEntity list = Json.fromJson( nSensor , SensorEntity.class ) ;
         return CompletableFuture.supplyAsync(
                 ()->{
+                    PozoEntity pozo=PozoEntity.FINDER.byId(id);
+                    pozo.addSensor(list);
                     list.save();
+                    pozo.update();
                     return list;
                 }
         ).thenApply(

@@ -4,6 +4,7 @@ import akka.dispatch.MessageDispatcher;
 import com.fasterxml.jackson.databind.JsonNode;
 import dispatchers.AkkaDispatcher;
 import models.CampoEntity;
+import models.RegionEntity;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -101,13 +102,16 @@ public class CampoController extends Controller {
      * Creación de un nuevo campo según los parametros de la petición POST /campos
      * @return el campo agregado
      */
-    public CompletionStage<Result> createCampo(){
+    public CompletionStage<Result> createCampo(Long id){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nItem = request().body().asJson();
         CampoEntity campo = Json.fromJson( nItem , CampoEntity.class ) ;
         return CompletableFuture.supplyAsync(
                 ()->{
+                    RegionEntity r=RegionEntity.FINDER.byId(id);
+                    r.addCampo(campo);
                     campo.save();
+                    r.update();
                     return campo;
                 }
         ).thenApply(
