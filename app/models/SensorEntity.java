@@ -26,6 +26,7 @@ public class SensorEntity extends Model{
     private List<MedicionEntity> mediciones;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JsonBackReference
     private PozoEntity pozo;
 
 

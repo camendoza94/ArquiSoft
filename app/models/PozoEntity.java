@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,10 +18,11 @@ public class PozoEntity extends Model{
 
     private int estado;
 
-    @OneToMany(mappedBy = "pozo")
+    @OneToMany(mappedBy = "pozo", cascade = CascadeType.ALL)
     private List<SensorEntity> sensores;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonBackReference
     @JoinColumn(name = "campo_id")
     private CampoEntity campo;
 
@@ -32,6 +34,19 @@ public class PozoEntity extends Model{
         this.campo = campo;
     }
 
+    public void addSensor(SensorEntity sensor)
+    {
+        this.sensores.add(sensor);
+        sensor.setPozo(this);
+    }
+
+    public List<SensorEntity> getSensores() {
+        return sensores;
+    }
+
+    public void setSensores(List<SensorEntity> sensores) {
+        this.sensores = sensores;
+    }
     public Long getId() {
         return id;
     }

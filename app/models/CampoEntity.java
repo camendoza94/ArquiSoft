@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,22 +23,51 @@ public class CampoEntity extends Model{
     private double longitud;
 
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JsonBackReference
     @JoinColumn(name="region_id")
     private RegionEntity region;
 
-    @OneToOne(fetch=FetchType.LAZY, optional=false)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="jefeproduccion_id")
     private UsuarioEntity jefeProduccion;
 
-    @OneToOne(fetch=FetchType.LAZY, optional=false)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="jefecampo_id")
     private UsuarioEntity jefeCampo;
 
-    @OneToMany(mappedBy = "campo")
+    @OneToMany(mappedBy = "campo", cascade = CascadeType.ALL)
     private List<PozoEntity> pozos;
 
     public CampoEntity() {
 
+    }
+
+    public void addPozo(PozoEntity pozo){ this.pozos.add(pozo); pozo.setCampo(this);}
+
+    public RegionEntity getRegion() {
+        return region;
+    }
+
+    public void setRegion(RegionEntity region) {
+        this.region = region;
+    }
+
+    public UsuarioEntity getJefeProduccion() {
+        return jefeProduccion;
+    }
+
+    public void setJefeProduccion(UsuarioEntity jefeProduccion) {
+        this.jefeProduccion = jefeProduccion;
+        jefeProduccion.setCampo(this);
+    }
+
+    public UsuarioEntity getJefeCampo() {
+        return jefeCampo;
+    }
+
+    public void setJefeCampo(UsuarioEntity jefeCampo) {
+        this.jefeCampo = jefeCampo;
+        jefeCampo.setCampo(this);
     }
 
     public CampoEntity(String nombre, double latitud, double longitud, List<PozoEntity> pozos) {
