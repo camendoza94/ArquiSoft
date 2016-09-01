@@ -17,6 +17,8 @@ public class UsuarioEntity extends Model{
 
     private String nombre;
 
+    private String tipo;
+
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JsonBackReference
     @JoinColumn(name = "campo_id")
@@ -53,6 +55,14 @@ public class UsuarioEntity extends Model{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     @Override

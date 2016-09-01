@@ -3,6 +3,7 @@ package controllers;
 import akka.dispatch.MessageDispatcher;
 import com.fasterxml.jackson.databind.JsonNode;
 import dispatchers.AkkaDispatcher;
+import models.CampoEntity;
 import models.UsuarioEntity;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -43,11 +44,21 @@ public class UsuarioController extends Controller {
         UsuarioEntity usuario = Json.fromJson( nUsuario , UsuarioEntity.class ) ;
         return CompletableFuture.supplyAsync(
                 ()->{
+                    CampoEntity campo = CampoEntity.FINDER.byId(id);
+                    String tipo = usuario.getTipo();
+                    if(tipo.equalsIgnoreCase("Jefe de Campo")){
+                        campo.setJefeCampo(usuario);
+                    } else if(tipo.equalsIgnoreCase("Jefe de Producción")) {
+                        campo.setJefeProduccion(usuario);
+                    } else {
+                        return null;
+                    }
                     usuario.save();
+                    campo.update();
                     return usuario;
                 }
         ).thenApply(
-                productEntity -> ok(Json.toJson(productEntity))
+                usuarioEntity -> ok(Json.toJson(usuarioEntity))
         );
     }
 
