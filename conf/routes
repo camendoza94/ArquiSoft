@@ -12,7 +12,8 @@ GET     /usuarios                   controllers.UsuarioController.getUsuarios
 GET     /usuarios/:id               controllers.UsuarioController.getUsuario(id: Long)
 PUT     /usuarios/:id               controllers.UsuarioController.updateUsuario(id: Long)
 DELETE  /usuarios/:id               controllers.UsuarioController.deleteUsuario(id: Long)
-POST    /usuarios                   controllers.UsuarioController.createUsuario
+POST    /campos/:id/usuarios        controllers.UsuarioController.createUsuario(id: Long)
+
 
 #RegionController
 
@@ -20,7 +21,7 @@ GET     /regiones                   controllers.RegionController.getRegiones
 GET     /regiones/:id               controllers.RegionController.getRegion(id: Long)
 PUT     /regiones/:id               controllers.RegionController.updateRegion(id: Long)
 DELETE  /regiones/:id               controllers.RegionController.deleteRegion(id: Long)
-POST    /regiones                   controllers.RegionController.createRegion
+POST    /regiones                   controllers.RegionController.createRegion()
 
 #CampoController
 
@@ -28,7 +29,7 @@ GET     /campos                   controllers.CampoController.getCampos(periodo:
 GET     /campos/:id               controllers.CampoController.getCampo(id: Long, periodo: String ?="noVal")
 PUT     /campos/:id               controllers.CampoController.updateCampo(id: Long)
 DELETE  /campos/:id               controllers.CampoController.deleteCampo(id: Long)
-POST    /campos                   controllers.CampoController.createCampo
+POST    /regiones/:id/campos      controllers.CampoController.createCampo(id: Long)
 
 #PozoController
 
@@ -36,7 +37,7 @@ GET     /pozos                   controllers.PozoController.getPozos(periodo:Str
 GET     /pozos/:id               controllers.PozoController.getPozo(id: Long, periodo:String ?= "noVal")
 PUT     /pozos/:id               controllers.PozoController.updatePozo(id: Long)
 DELETE  /pozos/:id               controllers.PozoController.deletePozo(id: Long)
-POST    /pozos                   controllers.PozoController.createPozo
+POST    /campos/:id/pozos        controllers.PozoController.createPozo(id: Long)
 
 #SensorController
 
@@ -48,7 +49,7 @@ PUT     /sensores/:id            controllers.SensorController.updateSensor(id: L
 PUT     /sensores/mediciones/:id controllers.SensorController.updateMedicion(id: Long)
 DELETE  /sensores/:id            controllers.SensorController.deleteSensor(id: Long)
 DELETE  /sensores/mediciones/:id controllers.SensorController.deleteMedida(id: Long)
-POST    /sensores                controllers.SensorController.createSensor
+POST    /campos/:id/sensores                controllers.SensorController.createSensor
 POST    /sensores/:id/mediciones controllers.SensorController.addMedida(id: Long)
 
 
