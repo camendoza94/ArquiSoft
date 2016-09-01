@@ -49,7 +49,7 @@ PUT     /sensores/:id            controllers.SensorController.updateSensor(id: L
 PUT     /sensores/mediciones/:id controllers.SensorController.updateMedicion(id: Long)
 DELETE  /sensores/:id            controllers.SensorController.deleteSensor(id: Long)
 DELETE  /sensores/mediciones/:id controllers.SensorController.deleteMedida(id: Long)
-POST    /campos/:id/sensores                controllers.SensorController.createSensor
+POST    /pozos/:id/sensores                controllers.SensorController.createSensor(id: Long)
 POST    /sensores/:id/mediciones controllers.SensorController.addMedida(id: Long)
 
 

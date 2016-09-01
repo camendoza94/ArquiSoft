@@ -109,15 +109,10 @@ public class SensorController extends Controller  {
         return CompletableFuture.supplyAsync(
                 ()->{
                     SensorEntity s=SensorEntity.FINDER.byId(id);
-                    System.out.println("bien");
+
                     s.addMedicion(list);
                     list.save();
-                    System.out.println("agrega medicion al sensor");
-                    //list.setSensor(s);
-                    //System.out.println("agrega sensor a la medicion");
                     s.update();
-                    System.out.println("guarda sensor");
-                    //list.save();
                     return list;
                 }
         ).thenApply(
