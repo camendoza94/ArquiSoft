@@ -112,7 +112,7 @@ public class SensorController extends Controller  {
 
                     s.addMedicion(list);
                     list.save();
-                    s.update();
+                    //s.update();
                     return list;
                 }
         ).thenApply(

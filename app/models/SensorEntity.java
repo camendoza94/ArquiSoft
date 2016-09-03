@@ -69,7 +69,7 @@ public class SensorEntity extends Model{
 
     public void setMediciones(List<MedicionEntity> mediciones){ this.mediciones=mediciones;}
 
-    public void addMedicion(MedicionEntity medicion){ this.mediciones.add(medicion); medicion.setSensor(this);}
+    public void addMedicion(MedicionEntity medicion){ medicion.setSensor(this);}//this.mediciones.add(medicion); }
 
 
     public PozoEntity getPozo() {
