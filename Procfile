@@ -1,0 +1,1 @@
+web: target/universal/stage/bin/todolistscala -Dhttp.port=${PORT} -Dplay.crypto.secret=${APPLICATION_SECRET}
