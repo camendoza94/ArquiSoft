@@ -1,1 +1,1 @@
-web: target/start -Dhttp.port=$PORT $JAVA_OPTS
+web: target/scala-2.11 -Dhttp.port=$PORT $JAVA_OPTS
