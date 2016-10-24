@@ -21,12 +21,36 @@
                     <span data-ng-show="detailForm.area.$error.number" class="help-inline">No es un número</span>
                 </div>
 
+                <div class="control-group" data-ng-show ="region.id">
+                    <label class="control-label" for="campo">Campos</label>
+                    <table id="campo" class="table table-striped table-bordered">
+                        <thead>
+                        <tr> <a href="" onclick="window.location.reload()"><i class="glyphicon glyphicon-refresh"></i> Actualizar </a></tr>
+                        <tr>
+                            <th data-ng-show="region.campos.length > 0">Nombre</th>
+                            <th data-ng-show="region.campos.length > 0">Área</th>
+                            <th data-ng-show="region.campos.length == 0">Todavía no hay campos para esta región. ¡Agrega uno!</th>
+                            <th><a href="region/{{region.id}}/campo/create"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="campo in region.campos| orderBy:['nombre','latitud', longitud]">
+                            <td class="pad">{{campo.nombre}} </td>
+                            <td> {{campo.latitud}}</td>
+                            <td> {{campo.longitud}}</td>
+
+                            <td><a href="campo/edit/{{campo.id}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    </div>
 
                 <br />
 
-                <button data-ng-click="go('/region')" class="btn btn-default">Cancel</button>
-                <button data-ng-click="save()" data-ng-disabled="noChange() || detailForm.$invalid" class="btn btn-primary">Save</button>
-                <button data-ng-click="delete()" data-ng-show="region.id" class="btn btn-danger">Delete</button>
+                <button data-ng-click="go('/region')" class="btn btn-default">Cancelar</button>
+                <button data-ng-click="save()" data-ng-disabled="noChange() || detailForm.$invalid" class="btn btn-primary">Guardar</button>
+                <button data-ng-click="delete()" data-ng-show="region.id" class="btn btn-danger">Borrar</button>
             </fieldset>
             </form>
             </div>

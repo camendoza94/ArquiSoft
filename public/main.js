@@ -27,7 +27,7 @@
 			templateUrl: "/views/campo/main",
 			controller: "campoListCtrl"
 		}).when("/region/:id/campo/create", {
-			templateUrl: "/views/campos/detail",
+			templateUrl: "/views/campo/detail",
 			controller: "campoCreateCtrl"
 		}).when("/campo/edit/:id", {
 			templateUrl: "/views/campo/detail",
