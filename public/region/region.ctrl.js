@@ -30,7 +30,7 @@
             // $scope.region.id is now populated so the Delete button will appear in the detailForm in public/html/detail.html
             $scope.region = ShowRegion.get({id: $routeParams.id});
             $scope.dbContent = ShowRegion.get({id: $routeParams.id}); // this is used in the noChange function
-        }
+            }
 
         // decide whether to enable or not the button Save in the detailForm in public/html/detail.html
         $scope.noChange = function() {
@@ -40,7 +40,12 @@
         // to update a region
         $scope.save = function() {
             var UpdateRegion = $resource(apiUrl +"/regiones/" + $routeParams.id,null,{update:{method:'PUT'}}); // a RESTful-capable resource object
-            UpdateRegion.update($scope.region); // $scope.celebrity comes from the detailForm in public/html/detail.html
+            $scope.regionSinCampos = {
+                "id":$scope.region.id,
+                "nombre":$scope.region.nombre,
+                "area":$scope.region.area
+            };
+            UpdateRegion.update($scope.regionSinCampos); // $scope.celebrity comes from the detailForm in public/html/detail.html
             $timeout(function() { $scope.go('/region'); }); // go back to public/html/main.html
         };
 
