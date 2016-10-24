@@ -28,9 +28,11 @@
                         <tr> <a href="" onclick="window.location.reload()"><i class="glyphicon glyphicon-refresh"></i> Actualizar </a></tr>
                         <tr>
                             <th data-ng-show="region.campos.length > 0">Nombre</th>
-                            <th data-ng-show="region.campos.length > 0">Área</th>
+                            <th data-ng-show="region.campos.length > 0">Latitud</th>
+
+                            <th data-ng-show="region.campos.length > 0">Longitud</th>
                             <th data-ng-show="region.campos.length == 0">Todavía no hay campos para esta región. ¡Agrega uno!</th>
-                            <th><a href="region/{{region.id}}/campo/create"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
+                            <th><a href="/region/{{region.id}}/campo/create"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -39,7 +41,7 @@
                             <td> {{campo.latitud}}</td>
                             <td> {{campo.longitud}}</td>
 
-                            <td><a href="campo/edit/{{campo.id}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
+                            <td><a href="/campo/edit/{{campo.id}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
