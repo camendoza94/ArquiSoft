@@ -3,7 +3,8 @@
 	<div class="row">
 		<div class="span12">
             <div class="col-md-8 col-md-offset-2">
-			<h2>Agregar Campo</h2>
+                <div data-ng-show="region.id"><h2>Detalles del campo</h2></div>
+                <div data-ng-show="region.id==null"><h2>Agregar campo</h2></div>
 
             <form name="detailForm" role="form" class="form-horizontal">
             <fieldset>
@@ -34,18 +35,16 @@
                         <thead>
                         <tr> <a href="" onclick="window.location.reload()"><i class="glyphicon glyphicon-refresh"></i> Actualizar </a></tr>
                         <tr>
-                            <th data-ng-show="campo.pozos.length > 0">Nombre</th>
-                            <th data-ng-show="campo.pozos.length > 0">Área</th>
+                            <th data-ng-show="campo.pozos.length > 0">ID</th>
+                            <th data-ng-show="campo.pozos.length > 0">Estado</th>
                             <th data-ng-show="campo.pozos.length == 0">Todavía no hay pozos para esta región. ¡Agrega uno!</th>
                             <th><a href="campo/{{campo.id}}/pozo/create"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="pozo in campo.pozos| orderBy:['nombre']">
-                            <td class="pad">{{pozo.nombre}} </td>
-                            <td> {{campo.latitud}}</td>
-                            <td> {{campo.longitud}}</td>
-
+                            <td> {{pozo.id}}</td>
+                            <td> {{pozo.estado}}</td>
                             <td><a href="pozo/edit/{{pozo.id}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
                         </tr>
                         </tbody>
