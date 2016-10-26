@@ -30,8 +30,16 @@
         }
 
         // decide whether to enable or not the button Save in the detailForm in public/html/detail.html
+        var original="";
         $scope.noChange = function() {
-            return angular.equals($scope.sensor, $scope.dbContent);
+            if($scope.selectedTipo==undefined){
+                $scope.selectedTipo=$scope.tipos[$scope.sensor.tipo];
+                original=$scope.selectedTipo;
+                console.log($scope.selectedTipo);
+            }
+            var bien = true;
+            if(original)bien=!original.localeCompare($scope.selectedTipo);
+            return angular.equals($scope.sensor, $scope.dbContent) && bien;
         };
 
         // to update a sensor
@@ -40,7 +48,7 @@
             $scope.sensorSinMediciones = {
                 "id":$scope.sensor.id,
                 "nombre":$scope.sensor.nombre,
-                "tipo":$scope.sensor.tipo
+                "tipo":$scope.tipos.indexOf($scope.selectedTipo)
             };
             UpdateSensor.update($scope.sensorSinMediciones); // $scope.celebrity comes from the detailForm in public/html/detail.html
             $timeout(function() { $scope.go('/sensor'); }); // go back to public/html/main.html
@@ -51,6 +59,9 @@
             var DeleteSensor = $resource( apiUrl +"/sensores/" + $routeParams.id); // a RESTful-capable resource object
             DeleteSensor.delete();
             $timeout(function() { $scope.go('/sensor'); }); // go back to public/html/main.html
+        };
+        $scope.updateTipo = function(e){
+            $scope.sensor.tipo=$scope.tipos.indexOf(e);
         };
     }]);
 

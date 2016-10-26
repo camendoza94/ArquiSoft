@@ -17,7 +17,7 @@
                 <div class="control-group">
                     <label class="control-label" for="tipo">Tipo sensor </label>
 
-                    <select ng-model="selectedName" ng-options="x for x in tipos">
+                    <select id="tipo" data-ng-model="selectedTipo" ng-options="x for x in tipos" >
                     </select>
                     <span data-ng-show="detailForm.tipo.$error.required" class="help-inline">Requerido</span>
                 </div>
