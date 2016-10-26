@@ -1,0 +1,28 @@
+<!--Author: Sari Haj Hussein-->
+<div role="main" class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<h2>Sensores</h2>
+			<div class="panel-body">
+				<table  class="table table-striped table-bordered">
+					<thead>
+                    <tr> <a href="" onclick="window.location.reload()"><i class="glyphicon glyphicon-refresh"></i> Actualizar </a></tr>
+						<tr>
+							<th>Nombre</th>
+							<th>Tipo</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="sensor in sensores| orderBy:['nombre','tipo']">
+							<td class="pad">{{sensor.nombre}} </td>
+                               <td> {{tipos[sensor.tipo]}}</td>
+
+							<td><a href="/sensor/edit/{{sensor.id}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
