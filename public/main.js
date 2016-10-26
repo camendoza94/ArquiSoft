@@ -44,6 +44,9 @@
 		}).when("/sensor", {
 			templateUrl: "/views/sensor/main",
 			controller: "sensorListCtrl"
+		}).when("/sensor/edit/:id", {
+			templateUrl: "/views/sensor/detail",
+			controller: "sensorEditCtrl"
 		}).when("/inicio",
 			{templateUrl:"/views/inicio"
 		}).otherwise({
