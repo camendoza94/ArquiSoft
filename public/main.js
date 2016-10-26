@@ -32,6 +32,9 @@
 		}).when("/campo/edit/:id", {
 			templateUrl: "/views/campo/detail",
 			controller: "campoEditCtrl"
+		}).when("/campo/create", {
+			templateUrl: "/views/campo/detail",
+			controller: "campoCreateCtrl"
 		}).when("/pozo", {
 			templateUrl: "/views/pozo/main",
 			controller: "pozoListCtrl"
