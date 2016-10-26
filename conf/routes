@@ -1,58 +1,67 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
-#Vista de la página inicial, por ahora no es necesaria?
-#GET     /                           controllers.HomeController.index
+#Front-End
+GET      /                      controllers.Application.index(any = "none")
 
+
+# Play routes serving HTML to AngularJS start with /views
+GET      /views/*any            controllers.Application.loadPublicHTML(any)
+
+#Mapeo de recursos del directorio /public (front-end)
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
 
 # UsuarioController
 
-GET     /usuarios                   controllers.UsuarioController.getUsuarios
-GET     /usuarios/:id               controllers.UsuarioController.getUsuario(id: Long)
-PUT     /usuarios/:id               controllers.UsuarioController.updateUsuario(id: Long)
-DELETE  /usuarios/:id               controllers.UsuarioController.deleteUsuario(id: Long)
-POST    /campos/:id/usuarios        controllers.UsuarioController.createUsuario(id: Long)
+GET     /api/usuarios                   controllers.UsuarioController.getUsuarios
+GET     /api/usuarios/:id               controllers.UsuarioController.getUsuario(id: Long)
+PUT     /api/usuarios/:id               controllers.UsuarioController.updateUsuario(id: Long)
+DELETE  /api/usuarios/:id               controllers.UsuarioController.deleteUsuario(id: Long)
+POST    /api/campos/:id/usuarios        controllers.UsuarioController.createUsuario(id: Long)
 
 
 #RegionController
 
-GET     /regiones                   controllers.RegionController.getRegiones
-GET     /regiones/:id               controllers.RegionController.getRegion(id: Long)
-PUT     /regiones/:id               controllers.RegionController.updateRegion(id: Long)
-DELETE  /regiones/:id               controllers.RegionController.deleteRegion(id: Long)
-POST    /regiones                   controllers.RegionController.createRegion()
+GET     /api/regiones                   controllers.RegionController.getRegiones
+GET     /api/regiones/:id               controllers.RegionController.getRegion(id: Long)
+PUT     /api/regiones/:id               controllers.RegionController.updateRegion(id: Long)
+DELETE  /api/regiones/:id               controllers.RegionController.deleteRegion(id: Long)
+POST    /api/regiones                   controllers.RegionController.createRegion()
 
 #CampoController
 
-GET     /campos                   controllers.CampoController.getCampos(periodo: String ?="noVal")
-GET     /campos/:id               controllers.CampoController.getCampo(id: Long, periodo: String ?="noVal")
-PUT     /campos/:id               controllers.CampoController.updateCampo(id: Long)
-DELETE  /campos/:id               controllers.CampoController.deleteCampo(id: Long)
-POST    /regiones/:id/campos      controllers.CampoController.createCampo(id: Long)
+GET     /api/campos                   controllers.CampoController.getCampos(periodo: String ?="noVal")
+GET     /api/campos/:id               controllers.CampoController.getCampo(id: Long, periodo: String ?="noVal")
+PUT     /api/campos/:id               controllers.CampoController.updateCampo(id: Long)
+DELETE  /api/campos/:id               controllers.CampoController.deleteCampo(id: Long)
+POST    /api/regiones/:id/campos      controllers.CampoController.createCampo(id: Long)
 
 #PozoController
 
-GET     /pozos                   controllers.PozoController.getPozos(periodo:String ?= "noVal")
-GET     /pozos/:id               controllers.PozoController.getPozo(id: Long, periodo:String ?= "noVal")
-PUT     /pozos/:id               controllers.PozoController.updatePozo(id: Long)
-DELETE  /pozos/:id               controllers.PozoController.deletePozo(id: Long)
-POST    /campos/:id/pozos        controllers.PozoController.createPozo(id: Long)
+GET     /api/pozos                   controllers.PozoController.getPozos(periodo:String ?= "noVal")
+GET     /api/pozos/:id               controllers.PozoController.getPozo(id: Long, periodo:String ?= "noVal")
+PUT     /api/pozos/:id               controllers.PozoController.updatePozo(id: Long)
+DELETE  /api/pozos/:id               controllers.PozoController.deletePozo(id: Long)
+POST    /api/campos/:id/pozos        controllers.PozoController.createPozo(id: Long)
 
 #SensorController
 
-GET     /sensores                controllers.SensorController.getSensores
-GET     /sensores/:id            controllers.SensorController.getSensor(id: Long)
-GET     /mediciones              controllers.SensorController.getMedidas
-GET     /sensores/:id/mediciones controllers.SensorController.getMedidasSensor(id: Long)
-PUT     /sensores/:id            controllers.SensorController.updateSensor(id: Long)
-PUT     /sensores/mediciones/:id controllers.SensorController.updateMedicion(id: Long)
-DELETE  /sensores/:id            controllers.SensorController.deleteSensor(id: Long)
-DELETE  /sensores/mediciones/:id controllers.SensorController.deleteMedida(id: Long)
-POST    /pozos/:id/sensores                controllers.SensorController.createSensor(id: Long)
-POST    /sensores/:id/mediciones controllers.SensorController.addMedida(id: Long)
+GET     /api/sensores                controllers.SensorController.getSensores
+GET     /api/sensores/:id            controllers.SensorController.getSensor(id: Long)
+GET     /api/mediciones              controllers.SensorController.getMedidas
+GET     /api/sensores/:id/mediciones controllers.SensorController.getMedidasSensor(id: Long)
+PUT     /api/sensores/:id            controllers.SensorController.updateSensor(id: Long)
+PUT     /api/sensores/mediciones/:id controllers.SensorController.updateMedicion(id: Long)
+DELETE  /api/sensores/:id            controllers.SensorController.deleteSensor(id: Long)
+DELETE  /api/sensores/mediciones/:id controllers.SensorController.deleteMedida(id: Long)
+POST    /api/pozos/:id/sensores                controllers.SensorController.createSensor(id: Long)
+POST    /api/sensores/:id/mediciones controllers.SensorController.addMedida(id: Long)
 
 
 #EmergenciaController
 
-POST     /sensores/:id/emergencia   controllers.EmergenciaController.addEmergencia(id: Long)
+POST     /api/sensores/:id/emergencia   controllers.EmergenciaController.addEmergencia(id: Long)
+
+# Redirect all unknown routes to the index page
+GET      /*any                  controllers.Application.index(any)
