@@ -17,6 +17,16 @@
         //};
     }]);
 
+    // the create controller
+    mod.controller("sensorCreateCtrl", ["$scope", "$resource", "$timeout", "apiUrl", function($scope, $resource, $timeout, apiUrl) {
+        // to save a region
+        $scope.save = function() {
+            var CreateSensor = $resource(apiUrl +"/sensores"); // a RESTful-capable resource object
+            CreateSensor.save($scope.sensor); // $scope.region comes from the detailForm in public/html/detail.html
+            $timeout(function() { $scope.go('/sensor'); }); // go back to public/html/main.html
+        };
+    }]);
+
 
 // the edit controller
     mod.controller("sensorEditCtrl", ["$scope", "$resource", "$routeParams", "$timeout", "apiUrl", function($scope, $resource, $routeParams, $timeout, apiUrl) {
