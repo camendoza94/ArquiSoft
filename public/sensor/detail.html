@@ -33,7 +33,7 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="medicion in sensor.mediciones| orderBy:['nombre','latitud', longitud]">
-                                    <td class="pad">{{medicion.fecha}} </td>
+                                    <td class="pad">{{medicion.fecha | date : "medium" }} </td>
                                     <td> {{medicion.valor}}</td>
                                 </tr>
                                 </tbody>
