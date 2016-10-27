@@ -17,11 +17,14 @@
                     <tr ng-repeat="pozo in pozos| orderBy:['id','estado']">
                         <td class="pad">{{pozo.id}} </td>
                         <td> {{pozo.estado}}</td>
-
-                        <td><a href="pozo/edit/{{pozo.id}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <h3>Filtros Temporales</h3>
+            <div class="panel-body">
+                <select ng-model="filtro" ng-options="f for f in filtros"></select>
+                <button data-ng-click="filter()" data-ng-disabled="noChange() || detailForm.$invalid" class="btn btn-primary">Filtrar</button>
             </div>
         </div>
     </div>

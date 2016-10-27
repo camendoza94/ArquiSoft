@@ -7,9 +7,15 @@
     var mod = ng.module("pozoModule");
 
 // the list controller
-    mod.controller("pozoListCtrl", ["$scope", "$resource", "apiUrl", function($scope, $resource, apiUrl) {
-        var Pozos = $resource(apiUrl + "/pozos"); // a RESTful-capable resource object
-        $scope.pozos = Pozos.query(); // for the list of pozos in public/html/main.html
+    mod.controller("pozoListCtrl", ["$scope", "$resource", "apiUrl", "$routeParams", function($scope, $resource, apiUrl, $routeParams) {
+        $scope.filtros = ["diario", "semanal", "mensual", "trimestral", "semestral", "anual"];
+        var Pozos = $resource(apiUrl + "/pozos", {periodo: $scope.filtro}); // a RESTful-capable resource object
+        $scope.pozos = Pozos.query() // for the list of pozos in public/html/main.html
+        $scope.filter = function() {
+            var Pozos = $resource(apiUrl + "/pozos", {periodo: $scope.filtro}); // a RESTful-capable resource object
+            $scope.pozos = Pozos.query();
+            $scope.go('/pozo');
+        };
     }]);
 
 // the create controller

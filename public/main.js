@@ -50,6 +50,9 @@
 		}).when("/sensor/edit/:id", {
 			templateUrl: "/views/sensor/detail",
 			controller: "sensorEditCtrl"
+		}).when("/pozo/:id/sensor/create", {
+			templateUrl: "/views/sensor/detail",
+			controller: "sensorCreateCtrl"
 		}).when("/inicio",
 			{templateUrl:"/views/inicio"
 		}).otherwise({
