@@ -8,8 +8,14 @@
 
 // the list controller
     mod.controller("campoListCtrl", ["$scope", "$resource", "apiUrl", function($scope, $resource, apiUrl) {
-        var campos = $resource(apiUrl + "/campos"); // a RESTful-capable resource object
+        $scope.filtros = ["diario", "semanal", "mensual", "trimestral", "semestral", "anual"];
+        var campos = $resource(apiUrl + "/campos?periodo="+$scope.filtro); // a RESTful-capable resource object
         $scope.campos = campos.query(); // for the list of campos in public/html/main.html
+        $scope.filter = function() {
+            var camposFiltrados = $resource(apiUrl + "/campos?periodo="+$scope.filtro); // a RESTful-capable resource object
+            $scope.campos = camposFiltrados.query();
+            $scope.go('/campo');
+        };
     }]);
 
 // the create controller
@@ -57,6 +63,5 @@
             $timeout(function() { $scope.go('/campo'); }); // go back to public/html/main.html
         };
     }]);
-
 
 })(window.angular)
