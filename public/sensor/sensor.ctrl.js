@@ -32,7 +32,8 @@
 // the edit controller
     mod.controller("sensorEditCtrl", ["$scope", "$resource", "$routeParams", "$timeout", "apiUrl", function($scope, $resource, $routeParams, $timeout, apiUrl) {
         var ShowSensor = $resource(apiUrl +"/sensores/:id", {id:"@id"}); // a RESTful-capable resource object
-        $scope.tipos= tipoOr;
+        $scope.tipos_string = tipoOr;
+        $scope.tipos = [0,1,2,3];
         if ($routeParams.id) {
             // retrieve the corresponding celebrity from the database
             // $scope.sensor.id is now populated so the Delete button will appear in the detailForm in public/html/detail.html
@@ -41,16 +42,10 @@
         }
 
         // decide whether to enable or not the button Save in the detailForm in public/html/detail.html
-        var original="";
+        var original;
         $scope.noChange = function() {
-            if($scope.selectedTipo==undefined){
-                $scope.selectedTipo=$scope.tipos[$scope.sensor.tipo];
-                original=$scope.selectedTipo;
-                console.log($scope.selectedTipo);
-            }
-            var bien = true;
-            if(original)bien=!original.localeCompare($scope.selectedTipo);
-            return angular.equals($scope.sensor, $scope.dbContent) && bien;
+
+            return angular.equals($scope.sensor, $scope.dbContent);
         };
 
         // to update a sensor
