@@ -10,13 +10,14 @@
                     <tr>
                         <th>ID</th>
                         <th>Estado</th>
-                        <th><a href="pozo/create"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
+                        <th>Detalles</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="pozo in pozos| orderBy:['id','estado']">
                         <td class="pad">{{pozo.id}} </td>
                         <td> {{pozo.estado}}</td>
+                        <td><a href="/pozo/edit/{{pozo.id}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
                     </tr>
                     </tbody>
                 </table>
