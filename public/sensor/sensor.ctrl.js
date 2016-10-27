@@ -18,15 +18,16 @@
     }]);
 
     // the create controller
-    mod.controller("sensorCreateCtrl", ["$scope", "$resource", "$timeout", "apiUrl", function($scope, $resource, $timeout, apiUrl) {
-        // to save a region
+    mod.controller("sensorCreateCtrl", ["$scope", "$resource", "$timeout", "apiUrl", "$routeParams",function($scope, $resource, $timeout, apiUrl, $routeParams) {
+        // to save a campo
+        $scope.tipos_string = tipoOr;
+        $scope.tipos = [0,1,2,3];
         $scope.save = function() {
-            var CreateSensor = $resource(apiUrl +"/sensores"); // a RESTful-capable resource object
-            CreateSensor.save($scope.sensor); // $scope.region comes from the detailForm in public/html/detail.html
+            var CreateSensor = $resource(apiUrl +"/pozos/"+$routeParams.id+"/sensores"); // a RESTful-capable resource object
+            CreateSensor.save($scope.sensor); // $scope.sensor comes from the detailForm in public/html/detail.html
             $timeout(function() { $scope.go('/sensor'); }); // go back to public/html/main.html
         };
     }]);
-
 
 // the edit controller
     mod.controller("sensorEditCtrl", ["$scope", "$resource", "$routeParams", "$timeout", "apiUrl", function($scope, $resource, $routeParams, $timeout, apiUrl) {
@@ -58,7 +59,7 @@
             $scope.sensorSinMediciones = {
                 "id":$scope.sensor.id,
                 "nombre":$scope.sensor.nombre,
-                "tipo":$scope.tipos.indexOf($scope.selectedTipo)
+                "tipo":$scope.sensor.tipo
             };
             UpdateSensor.update($scope.sensorSinMediciones); // $scope.celebrity comes from the detailForm in public/html/detail.html
             $timeout(function() { $scope.go('/sensor'); }); // go back to public/html/main.html

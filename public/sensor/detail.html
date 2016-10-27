@@ -3,53 +3,50 @@
 	<div class="row">
 		<div class="span12">
             <div class="col-md-8 col-md-offset-2">
-			<h2>Editar sensor</h2>
+                <div data-ng-show="sensor.id"><h2>Detalles del sensor</h2></div>
+                <div data-ng-show="sensor.id==null"><h2>Agregar sensor</h2></div>
 
-            <form name="detailForm" role="form" class="form-horizontal">
-            <fieldset>
-                <div class="control-group">
-                    <label class="control-label" for="nombre">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" data-ng-model="sensor.nombre" placeholder="Introduzca el nombre" required>
-                    <span data-ng-show="detailForm.nombre.$error.required" class="help-inline">Requerido</span>
-                </div>
+                <form name="detailForm" role="form" class="form-horizontal">
+                    <fieldset>
+                        <div class="control-group">
+                            <label class="control-label" for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" data-ng-model="sensor.nombre" placeholder="Introduzca el nombre" required>
+                            <span data-ng-show="detailForm.nombre.$error.required" class="help-inline">Requerido</span>
+                        </div>
 
+                        <div class="control-group">
+                            <label class="control-label" for="tipo">Tipo sensor </label>
+                            <select id="tipo" name="tipo" data-ng-model="sensor.tipo" ng-options="tipos_string[x] for x in tipos"></select>
+                            <span data-ng-show="detailForm.tipo.$error.required" class="help-inline">Requerido</span>
+                        </div>
 
-                <div class="control-group">
-                    <label class="control-label" for="tipo">Tipo sensor </label>
+                        <div class="control-group" data-ng-show ="sensor.id">
+                            <label class="control-label" for="medicion">Mediciones</label>
+                            <table id="medicion" class="table table-striped table-bordered">
+                                <thead>
+                                <tr> <a href="" onclick="window.location.reload()"><i class="glyphicon glyphicon-refresh"></i> Actualizar </a></tr>
+                                <tr>
+                                    <th data-ng-show="sensor.mediciones.length > 0">Fecha</th>
+                                    <th data-ng-show="sensor.mediciones.length > 0">Valor</th>
+                                    <th data-ng-show="sensor.mediciones.length == 0">Todavía no hay mediciones para este sensor. Esperando a recibirlas...</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="medicion in sensor.mediciones| orderBy:['nombre','latitud', longitud]">
+                                    <td class="pad">{{medicion.fecha}} </td>
+                                    <td> {{medicion.valor}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <select id="tipo" data-ng-model="selectedTipo" ng-options="x for x in tipos" >
-                    </select>
-                    <span data-ng-show="detailForm.tipo.$error.required" class="help-inline">Requerido</span>
-                </div>
+                        <br />
 
-                <div class="control-group" data-ng-show ="sensor.id">
-                    <label class="control-label" for="medicion">Mediciones</label>
-                    <table id="medicion" class="table table-striped table-bordered">
-                        <thead>
-                        <tr> <a href="" onclick="window.location.reload()"><i class="glyphicon glyphicon-refresh"></i> Actualizar </a></tr>
-                        <tr>
-                            <th data-ng-show="sensor.mediciones.length > 0">Fecha</th>
-                            <th data-ng-show="sensor.mediciones.length > 0">Valor</th>
-                            <th data-ng-show="sensor.mediciones.length == 0">Todavía no hay mediciones para este sensor. Esperando a recibirlas...</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="medicion in sensor.mediciones| orderBy:['nombre','latitud', longitud]">
-                            <td class="pad">{{medicion.fecha}} </td>
-                            <td> {{medicion.valor}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                    </div>
-
-                <br />
-
-                <button data-ng-click="go('/sensor')" class="btn btn-default">Cancelar</button>
-                <button data-ng-click="save()" data-ng-disabled="noChange() || detailForm.$invalid" class="btn btn-primary">Guardar</button>
-                <button data-ng-click="delete()" data-ng-show="sensor.id" class="btn btn-danger">Borrar</button>
-            </fieldset>
-            </form>
+                        <button data-ng-click="go('/sensor')" class="btn btn-default">Cancelar</button>
+                        <button data-ng-click="save()" data-ng-disabled="noChange() || detailForm.$invalid" class="btn btn-primary">Guardar</button>
+                        <button data-ng-click="delete()" data-ng-show="sensor.id" class="btn btn-danger">Borrar</button>
+                    </fieldset>
+                </form>
             </div>
 		</div>
 	</div>

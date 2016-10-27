@@ -31,6 +31,9 @@
 // the edit controller
     mod.controller("pozoEditCtrl", ["$scope", "$resource", "$routeParams", "$timeout", "apiUrl", function($scope, $resource, $routeParams, $timeout, apiUrl) {
         var ShowPozo = $resource(apiUrl +"/pozos/:id", {id:"@id"}); // a RESTful-capable resource object
+
+        $scope.tipos_sensor = ['Fluido', 'Energia', 'Temperatura', 'Emergencia'];
+
         if ($routeParams.id) {
             // retrieve the corresponding celebrity from the database
             // $scope.pozo.id is now populated so the Delete button will appear in the detailForm in public/html/detail.html

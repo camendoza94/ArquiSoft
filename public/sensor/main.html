@@ -10,14 +10,13 @@
 						<tr>
 							<th>Nombre</th>
 							<th>Tipo</th>
-							<th> </th>
+							<th>Detalles</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="sensor in sensores| orderBy:['nombre','tipo']">
 							<td class="pad">{{sensor.nombre}} </td>
-                               <td> {{tipos[sensor.tipo]}}</td>
-
+							<td> {{tipos[sensor.tipo]}}</td>
 							<td><a href="/sensor/edit/{{sensor.id}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
 						</tr>
 					</tbody>
