@@ -39,13 +39,13 @@ public class CampoController extends Controller {
                                 LocalDateTime ultimaFecha= LocalDateTime.now();
                                 LocalDateTime primerFecha = LocalDateTime.now().minusDays(1);
                                 respuesta = CampoEntity.FINDER.where()
-                                        .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
+                                        .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
                             }else if (periodo.equals("semanal")){
 
                                 LocalDateTime ultimaFecha= LocalDateTime.now();
                                 LocalDateTime primerFecha = LocalDateTime.now().minusWeeks(1);
                                 respuesta = CampoEntity.FINDER.where()
-                                        .between("sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
+                                        .between("pozos.sensores.mediciones.fecha", Timestamp.valueOf(primerFecha), Timestamp.valueOf(ultimaFecha)).findList();
                             }
                             else if (periodo.equals("mensual"))
                             {
