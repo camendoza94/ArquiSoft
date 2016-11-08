@@ -45,7 +45,7 @@ public class UsuarioController extends Controller {
         return CompletableFuture.supplyAsync(
                 ()->{
                     CampoEntity campo = CampoEntity.FINDER.byId(id);
-                    String tipo = usuario.getTipo();
+                    String tipo = usuario.getRoles().toString();
                     if(tipo.equalsIgnoreCase("Jefe de Campo")){
                         campo.setJefeCampo(usuario);
                     } else if(tipo.equalsIgnoreCase("Jefe de Producción")) {

@@ -1,4 +1,4 @@
-package services;
+package service;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.inject.*;

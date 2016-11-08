@@ -4,6 +4,8 @@
 package controllers;
 
 import akka.dispatch.MessageDispatcher;
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import dispatchers.AkkaDispatcher;
 import models.MedicionEntity;
@@ -21,6 +23,7 @@ import static play.libs.Json.toJson;
 /**
  * Clase controladora de la lista de deseos
  */
+@Restrict(@Group(Application.USER_ROLE))
 public class SensorController extends Controller  {
 
     public CompletionStage<Result> getSensores() {

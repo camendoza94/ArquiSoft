@@ -1,4 +1,4 @@
-package services;
+package service;
 
 /**
  * This interface demonstrates how to create a component that is injected

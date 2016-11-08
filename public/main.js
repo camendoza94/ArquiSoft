@@ -55,6 +55,16 @@
 			controller: "sensorCreateCtrl"
 		}).when("/inicio",
 			{templateUrl:"/views/inicio"
+		}).when("/login",
+			{redirectTo: "/login",
+		}).when("/signup",
+			{redirectTo: "/signup"
+		}).when("/logout",
+			{redirectTo: "/logout"
+		}).when("/profile",
+			{redirectTo: "/profile"
+		}).when("/accounts/add",
+			{redirectTo: "/accounts/add"
 		}).otherwise({
 			redirectTo: "/inicio"
 		});

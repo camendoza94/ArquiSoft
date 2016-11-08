@@ -1,0 +1,122 @@
+@import service.UserProvider
+@import be.objectify.deadbolt.java.views.html.subjectPresentOr
+@(userProvider: UserProvider)
+@import be.objectify.deadbolt.java.views.html._
+
+
+    <!--Based on https://github.com/angyjoe/eventual Author: Sari Haj Hussein-->
+<!DOCTYPE html>
+<html data-ng-app="app" data-ng-controller="AppCtrl">
+    <head>
+
+        <title>OilCol S.A </title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("third/bootstrap/css/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("third/bootstrap/css/bootstrap-theme.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-inverse navbar-static-top">
+        <div role="main" class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" ng-href="/inicio">
+                    <img class="logo" src="@routes.Assets.versioned("images/favicon.png")" />
+                </a>
+
+
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a ng-href="/inicio">Inicio</a>
+                    </li>
+                    <li>
+                        <a ng-href="/region">Regiones</a>
+                    </li>
+                    <li >
+                        <a ng-href="/campo">Campos</a>
+                    </li>
+                    <li>
+                        <a ng-href="/pozo">Pozos</a>
+                    </li>
+
+                    <li>
+                        <a ng-href="/sensor">Sensores</a>
+                    </li>
+
+                    @subjectPresentOr() {
+
+                        @defining(userProvider.getUser(session())) { user =>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> @user.name <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="@("active")"><a href="@routes.Application.profile()">Perfil</a></li>
+                                    <li><a href="@routes.Account.link()">Detalles</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><i class="icon-off"></i> Cerrar Sesión</a></li>
+                                </ul>
+                            </li>
+                        }
+
+                    }{
+                        }
+
+
+                </ul>
+
+
+
+            </div>
+        </div>
+            </nav>
+        <div class="row">
+            <div class="span12">
+                    <!-- as the route changes, the AngularJS view will be dynamically rendered and populated -->
+                <div data-ng-view></div>
+            </div>
+
+        </div>
+        <div class = container>
+            <footer>
+                <p>&copy;
+                    2016 DevAndes. Licensed under Apache License, Version 2.0. View details <a href="https://github.com/camendoza94/ArquiSoft/blob/master/LICENSE">
+                        here</a>.</p>
+                <p>&copy;
+                    2012-2014 Play! Authenticate. Licensed under Apache License, Version 2.0. View details <a href="https://github.com/joscha/play-authenticate/blob/master/LICENSE">
+                        here</a>.</p>
+                <p>
+                    <small>Styles by <a href="http://getbootstrap.com" target="_blank">
+                        Twitter Bootstrap</a> &middot;
+                        Provider icons by <a href="https://github.com/paulrobertlloyd/socialmediaicons/" target="_blank">
+                            Paul Robert Lloyd</a></small></p>
+            </footer>
+        </div>
+        <script src="@routes.Assets.versioned("third/jquery/jquery-1.11.2.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("third/bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("third/angularjs/angular.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("third/angularjs/angular-resource.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("third/angularjs/angular-route.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("main.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("region/region.mod.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("region/region.ctrl.js")" type="text/javascript"></script>
+
+        <script src="@routes.Assets.versioned("campo/campo.mod.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("campo/campo.ctrl.js")" type="text/javascript"></script>
+
+        <!--TODO agregar el ruteo a los recursos que falta agregar-->
+        <script src="@routes.Assets.versioned("pozo/pozo.mod.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("pozo/pozo.ctrl.js")" type="text/javascript"></script>
+
+
+        <script src="@routes.Assets.versioned("sensor/sensor.mod.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("sensor/sensor.ctrl.js")" type="text/javascript"></script>
+
+
+    </body>
+</html>

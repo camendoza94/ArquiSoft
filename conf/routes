@@ -2,7 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 #Front-End
-GET      /                      controllers.Application.index(any = "none")
+
+GET     /                           controllers.Application.index
+#GET     /                      controllers.Application.indexSign(any = "none")
 
 
 # Play routes serving HTML to AngularJS start with /views
@@ -10,6 +12,44 @@ GET      /views/*any            controllers.Application.loadPublicHTML(any)
 
 #Mapeo de recursos del directorio /public (front-end)
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+#AUTENTICACIÓN
+
+GET     /profile                    controllers.Application.profile
+
+GET     /login                      controllers.Application.login
+POST    /login                      controllers.Application.doLogin
+
+GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
+GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+
+GET     /signup                     controllers.Application.signup
+POST    /signup                     controllers.Application.doSignup
+
+GET     /accounts/unverified        controllers.Signup.unverified
+GET     /authenticate/:provider/denied     controllers.Signup.oAuthDenied(provider: String)
+
+GET     /accounts/verify/:token     controllers.Signup.verify(token: String)
+GET     /accounts/exists            controllers.Signup.exists
+
+GET     /accounts/password/reset/:token     controllers.Signup.resetPassword(token: String)
+POST    /accounts/password/reset            controllers.Signup.doResetPassword
+
+GET    /accounts/password/change    controllers.Account.changePassword
+POST   /accounts/password/change    controllers.Account.doChangePassword
+
+GET     /accounts/verify            controllers.Account.verifyEmail
+
+GET     /accounts/add               controllers.Account.link
+
+GET     /accounts/link              controllers.Account.askLink
+POST    /accounts/link              controllers.Account.doLink
+
+GET     /accounts/merge             controllers.Account.askMerge
+POST    /accounts/merge             controllers.Account.doMerge
+
+GET     /login/password/forgot     controllers.Signup.forgotPassword(email: String ?= "")
+POST    /login/password/forgot     controllers.Signup.doForgotPassword
 
 
 # UsuarioController
@@ -63,5 +103,6 @@ POST    /api/sensores/:id/mediciones controllers.SensorController.addMedida(id: 
 
 POST     /api/sensores/:id/emergencia   controllers.EmergenciaController.addEmergencia(id: Long)
 
-# Redirect all unknown routes to the index page
-GET      /*any                  controllers.Application.index(any)
+
+# Redirect all unknown routes to the indexSign page
+GET      /*any                  controllers.Application.indexSign(any)

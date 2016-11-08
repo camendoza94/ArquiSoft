@@ -1,0 +1,52 @@
+@import service.UserProvider
+@(playAuth: com.feth.play.module.pa.PlayAuthenticate, userProvider: UserProvider, localUser: models.UsuarioEntity = null)
+
+@import com.feth.play.module.pa.views.html._
+
+@main(userProvider, "Profile","profile") {
+
+    <h1>Perfil</h1>
+    <p>
+    Your name is @localUser.name and your email address is @if(!localUser.email) {<em>&lt;unknown&gt;</em>.} else {
+    	@localUser.email.
+	    <i>
+	    @if(!localUser.emailValidated && localUser.email) {
+	      (<a href="@routes.Account.verifyEmail">unverified - click to verify</a>)
+	    } else {
+	      (verified)
+	    }</i>
+    }
+    <br />
+        @if(localUser.firstName && localUser.lastName) {
+            Your first name is @localUser.firstName and your last name is @localUser.lastName
+            <br/>
+        }
+    @defining(localUser.getProviders()) { providers =>
+        @if(providers.size() > 0) {
+        @if(providers.size() ==1) {
+            Proveedor
+        } else {
+            Proveedores
+        }
+        @for(p <- providers) {
+            @_providerIcon(p)
+        }
+        <br/>
+        }
+    }
+
+    <br/>
+    @currentAuth(playAuth) { auth =>
+        @Messages("Sesión iniciada") @_providerIcon(auth.getProvider())<br/>
+        @if(auth.expires() != -1){
+            @Messages("Sesión expira", auth.getId(), Application.formatTimestamp(auth.expires()))
+        } else {
+            @Messages("Sesión terminada", auth.getId())
+        }
+    }
+    <br/>
+    <ul>
+    	<li><a href="@routes.Account.changePassword">@Messages("Cambio de contraseña")</a></li>
+    </ul>
+    </p>
+}

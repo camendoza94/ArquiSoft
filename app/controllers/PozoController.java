@@ -1,6 +1,8 @@
 package controllers;
 
 import akka.dispatch.MessageDispatcher;
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import dispatchers.AkkaDispatcher;
 import models.CampoEntity;
@@ -16,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import static play.libs.Json.toJson;
-
+@Restrict(@Group(Application.USER_ROLE))
 public class PozoController extends Controller {
 
     /**

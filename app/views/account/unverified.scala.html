@@ -1,0 +1,10 @@
+@import service.UserProvider
+@(userProvider: UserProvider)
+
+@main(userProvider, Messages("Cuenta sin verificar")) {
+
+	<h1>@Messages("Cuenta sin verificar")</h1>
+	<p>
+	@Messages("Verifique su cuenta") <a href="@routes.Account.verifyEmail">@Messages("Verificar")</a>.<br/>
+	</p>
+}

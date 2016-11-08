@@ -1,0 +1,36 @@
+@import service.UserProvider
+@(userProvider: UserProvider, acceptForm: Form[Account.Accept], aUser: com.feth.play.module.pa.user.AuthUser, bUser: com.feth.play.module.pa.user.AuthUser)
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapBasic.f) }
+
+@label = {
+	@Messages("¿Desea unir las siguientes cuentas?",aUser,bUser)
+}
+
+@main(userProvider, Messages("Unión de cuentas")) {
+
+	<h1>@Messages("Unión de cuentas")</h1>
+	<p>
+	@form(routes.Account.doMerge, 'class -> "form-horizontal", 'role -> "form") {
+
+            @if(acceptForm.hasGlobalErrors) {
+		        <p class="alert alert-danger">
+		          @acceptForm.globalError.message
+		     	</p>
+            }
+
+	   @inputRadioGroup(
+            acceptForm("accept"),
+            options = Seq(
+            	"true"-> Messages("Unir cuentas"),
+            	"false"->Messages("No unir cuentas")
+            ),
+            '_label -> label,
+            '_showConstraints -> false
+        )
+
+    <button type="submit" class="btn btn-default">@Messages("Ok")</button>
+	}
+	</p>
+}

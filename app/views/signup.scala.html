@@ -1,0 +1,54 @@
+@import service.UserProvider
+@(playAuth: com.feth.play.module.pa.PlayAuthenticate, userProvider: UserProvider, signupForm: Form[_])
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapBasic.f) }
+
+@main(userProvider, "SignUp","signup") {
+    <div role="main" class="container bg-primary img-rounded">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+
+                <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <h1>SignUp</h1>
+                    </div>
+                </div>
+
+  <div id="signup" class="row">
+
+    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+        @* Display proprietary login form *@
+    	@helper.form(routes.Application.doSignup, 'class -> "form-horizontal", 'role -> "form") {
+
+            @if(signupForm.hasGlobalErrors) {
+		        <p class="alert alert-danger">
+		          @signupForm.globalError.message
+		     	</p>
+            }
+
+             @inputText(
+                signupForm("name"),
+                '_label -> "nombre"
+             )
+
+             @_emailPartial(signupForm)
+
+             @_passwordPartial(signupForm)
+
+            <button type="submit" class="btn btn-default">Registrarse Ahora</button>
+    	}
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <h2>OAuth</h2>
+        @* Display list of available providers *@
+        @_providerPartial(playAuth, skipCurrent=false)
+    </div>
+
+  </div>
+                <br>
+            </div>
+        </div>
+    </div>
+}
