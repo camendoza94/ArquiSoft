@@ -5,17 +5,22 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import dispatchers.AkkaDispatcher;
+import models.MedicionEntity;
 import models.RegionEntity;
+import models.SensorEntity;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import static play.libs.Json.toJson;
 @Restrict(@Group(Application.USER_ROLE))
-public class RegionController extends Controller {
+public class pRegionController extends Controller {
 
     /**
      * Obtención de todos los regiones por generación de petición GET /regiones
@@ -142,6 +147,78 @@ public class RegionController extends Controller {
                             return ok(toJson(regionEntity));
                         }
                 );
+    }
+
+
+    /**
+     * Hace el map reduce de los sensores para ver cual envía info más frecuentemente
+     * @return el id del sensor
+     */
+    public SensorEntity mapReduceSensores(List<SensorEntity> sensorEntities) {
+
+        List<Long> frecuencias_reduce = new ArrayList<Long>();
+
+        //MAP
+        for(int i=0; i<sensorEntities.size(); i++) {
+            SensorEntity sensor_i = sensorEntities.get(i);
+            List<MedicionEntity> mediciones = sensor_i.getMediciones();
+            int num_mediciones = mediciones.size();
+
+            if (num_mediciones > 0) {
+                List<Date> fechas_map = new ArrayList<Date>();
+                for (int j = 0; j < num_mediciones; j++) {
+                    MedicionEntity m = mediciones.get(i);
+                    fechas_map.add(m.getFecha());
+                }
+
+                long frecuencia_media = 0L;
+
+                if(num_mediciones>1) {
+                    for (int j = 1; j < num_mediciones; j++) {
+                        long frecuencia = fechas_map.get(j).getTime() - fechas_map.get(j - 1).getTime();
+                        frecuencia_media += frecuencia;
+                    }
+                    frecuencia_media = frecuencia_media / (num_mediciones - 1);
+                }
+                else{
+                    frecuencia_media = -1L;
+                }
+
+                frecuencias_reduce.add(frecuencia_media);
+            } else {
+                sensorEntities.remove(i);
+            }
+        }
+
+        //REDUCE
+        if(sensorEntities.size() > 0) {
+            int index_0 = -1;
+            int index_f = -1;
+            long min_frecuencia = frecuencias_reduce.get(0);
+
+            for(int i=0; i<sensorEntities.size(); i++) {
+                long frecuencia = frecuencias_reduce.get(i);
+                if(frecuencia == 0L){
+                    index_0 = i;
+                }
+                else{
+                    if(frecuencia<=min_frecuencia){
+                        min_frecuencia = frecuencia;
+                        index_f = i;
+                    }
+                }
+            }
+
+            if(index_f != -1){
+                return sensorEntities.get(index_f);
+            }
+            else{
+                return sensorEntities.get(index_0);
+            }
+        }
+        else {
+            return null;
+        }
     }
 
 }
