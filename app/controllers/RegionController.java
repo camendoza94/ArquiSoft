@@ -20,7 +20,7 @@ import java.util.concurrent.CompletionStage;
 
 import static play.libs.Json.toJson;
 @Restrict(@Group(Application.USER_ROLE))
-public class pRegionController extends Controller {
+public class RegionController extends Controller {
 
     /**
      * Obtención de todos los regiones por generación de petición GET /regiones
