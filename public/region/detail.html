@@ -56,6 +56,24 @@
                         <button data-ng-click="delete()" data-ng-show="region.id" class="btn btn-danger">Borrar</button>
                     </fieldset>
                 </form>
+
+                <h3>Sensor mas frecuente</h3>
+                <label class="control-label" for="sensormasfrecuente">Sensor</label>
+                <table id="sensormasfrecuente" class="table table-striped table-bordered">
+                    <thead>
+                    <tr> <a href="" onclick="window.location.reload()"><i class="glyphicon glyphicon-refresh"></i> Actualizar </a></tr>
+                    <tr>
+                        <th data-ng-show="sensormasfrecuente.id">Nombre</th>
+                        <th data-ng-show="sensormasfrecuente.id">Tipo Sensor</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="pad">{{sensormasfrecuente.nombre}} </td>
+                        <td class="pad">{{tipos_sensor[sensormasfrecuente.tipo]}} </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
 		</div>
 	</div>

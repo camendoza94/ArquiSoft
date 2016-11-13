@@ -24,13 +24,21 @@
 
 // the edit controller
     mod.controller("regionEditCtrl", ["$scope", "$resource", "$routeParams", "$timeout", "apiUrl", function($scope, $resource, $routeParams, $timeout, apiUrl) {
+
+        $scope.tipos_sensor = ['Fluido', 'Energia', 'Temperatura', 'Emergencia'];
+
+        var SensorMas = $resource(apiUrl +"/regiones/:id/sensormasfrecuente", {id:"@id"}); // a RESTful-capable resource object
+        if ($routeParams.id) {
+            $scope.sensormasfrecuente = SensorMas.get({id: $routeParams.id});
+        }
+
         var ShowRegion = $resource(apiUrl +"/regiones/:id", {id:"@id"}); // a RESTful-capable resource object
         if ($routeParams.id) {
             // retrieve the corresponding celebrity from the database
             // $scope.region.id is now populated so the Delete button will appear in the detailForm in public/html/detail.html
             $scope.region = ShowRegion.get({id: $routeParams.id});
             $scope.dbContent = ShowRegion.get({id: $routeParams.id}); // this is used in the noChange function
-            }
+        }
 
         // decide whether to enable or not the button Save in the detailForm in public/html/detail.html
         $scope.noChange = function() {

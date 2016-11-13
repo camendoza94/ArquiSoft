@@ -68,6 +68,7 @@ GET     /api/regiones/:id               controllers.RegionController.getRegion(i
 PUT     /api/regiones/:id               controllers.RegionController.updateRegion(id: Long)
 DELETE  /api/regiones/:id               controllers.RegionController.deleteRegion(id: Long)
 POST    /api/regiones                   controllers.RegionController.createRegion()
+GET     /api/regiones/:id/sensormasfrecuente    controllers.RegionController.getSensorMasFrecuente(id: Long)
 
 #CampoController
 

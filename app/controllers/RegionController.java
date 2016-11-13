@@ -5,9 +5,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import dispatchers.AkkaDispatcher;
-import models.MedicionEntity;
-import models.RegionEntity;
-import models.SensorEntity;
+import models.*;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -165,23 +163,21 @@ public class RegionController extends Controller {
             int num_mediciones = mediciones.size();
 
             if (num_mediciones > 0) {
+
                 List<Date> fechas_map = new ArrayList<Date>();
                 for (int j = 0; j < num_mediciones; j++) {
-                    MedicionEntity m = mediciones.get(i);
+                    MedicionEntity m = mediciones.get(j);
                     fechas_map.add(m.getFecha());
                 }
 
                 long frecuencia_media = 0L;
 
                 if(num_mediciones>1) {
-                    for (int j = 1; j < num_mediciones; j++) {
+                    for (int j = 1; j < fechas_map.size(); j++) {
                         long frecuencia = fechas_map.get(j).getTime() - fechas_map.get(j - 1).getTime();
-                        frecuencia_media += frecuencia;
+                        frecuencia_media += Math.abs(frecuencia);
                     }
                     frecuencia_media = frecuencia_media / (num_mediciones - 1);
-                }
-                else{
-                    frecuencia_media = -1L;
                 }
 
                 frecuencias_reduce.add(frecuencia_media);
@@ -194,7 +190,7 @@ public class RegionController extends Controller {
         if(sensorEntities.size() > 0) {
             int index_0 = -1;
             int index_f = -1;
-            long min_frecuencia = frecuencias_reduce.get(0);
+            long min_frecuencia = Long.MAX_VALUE;
 
             for(int i=0; i<sensorEntities.size(); i++) {
                 long frecuencia = frecuencias_reduce.get(i);
@@ -219,6 +215,42 @@ public class RegionController extends Controller {
         else {
             return null;
         }
+    }
+
+    public CompletionStage<Result> getSensorMasFrecuente(Long id) {
+        MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
+
+        return CompletableFuture.
+                supplyAsync(
+                        () -> {
+
+                            List<SensorEntity> sensoresTotales = new ArrayList<SensorEntity>();
+
+                            RegionEntity r = RegionEntity.FINDER.byId(id);
+                            List<CampoEntity> campos = r.getCampos();
+
+                            for (int j=0; j<campos.size(); j++) {
+                                CampoEntity c = campos.get(j);
+                                List<PozoEntity> pozos =c.getPozos();
+                                for (int k=0; k<pozos.size(); k++) {
+                                    PozoEntity p = pozos.get(k);
+                                    List<SensorEntity> sensores = p.getSensores();
+                                    for (int l=0; l<sensores.size(); l++) {
+                                        sensoresTotales.add(sensores.get(l));
+                                    }
+                                }
+                            }
+
+                            SensorEntity respuesta = mapReduceSensores(sensoresTotales);
+
+                            return respuesta;
+                        }
+                        , jdbcDispatcher)
+                .thenApply(
+                        respuesta -> {
+                            return ok(toJson(respuesta));
+                        }
+                );
     }
 
 }
