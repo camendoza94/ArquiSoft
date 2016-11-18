@@ -21,6 +21,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -28,10 +30,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import java.security.Key;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -158,18 +157,23 @@ public class SensorController extends Controller  {
 
     private JsonNode descifrarJsonMedicion(JsonNode nMedidaCifrada) {
 
+        //String jsonstring = nMedidaCifrada.toString();
+        //System.out.println("jsonstring: "+jsonstring);
+        //byte[] llaveByte = DatatypeConverter.parseHexBinary("2B7E151628AED2A6");
+        //SecretKey llave = new SecretKeySpec(llaveByte,"DES");
+        //byte[] jsonstringByte = jsonstring.getBytes();
+
         JsonNode mensaje = nMedidaCifrada.get("mensaje");
         JsonNode hmac = nMedidaCifrada.get("hmac");
+        String mensajeString = mensaje.toString();
+        String hmacString = hmac.toString();
 
-        int tamanioLlave = 64;
-        byte[] llaveByte = DatatypeConverter.parseHexBinary("2B7E151628AED2A6ABF7158809CF4F3C");
+        System.out.println("mensaje recibido: "+mensajeString);
 
-        System.out.println("longitudddd "+llaveByte.length);
-
-        //Key llave = new SecretKeySpec(llaveByte,0,tamanioLlave, "DES");
-        Key llave = new SecretKeySpec(llaveByte,"DES");
-        byte[] mensajeByte = mensaje.toString().getBytes();
-        byte[] hmacByte = hmac.toString().getBytes();
+        byte[] llaveByte = DatatypeConverter.parseHexBinary("2B7E151628AED2A6");
+        SecretKey llave = new SecretKeySpec(llaveByte,"DES");
+        byte[] mensajeByte = DatatypeConverter.parseBase64Binary(mensajeString);
+        byte[] hmacByte = DatatypeConverter.parseBase64Binary(hmacString);
 
         boolean esIntegro = false;
 
@@ -186,10 +190,28 @@ public class SensorController extends Controller  {
 
         if(esIntegro){
             try {
-                byte[] mensajeDescifrado = symmetricEncryption(mensajeByte, llave);
-                System.out.println("mensjae descifradooo: "+new String(mensajeDescifrado));
+                //byte[] mensajeDescifrado = symmetricEncryption(jsonstringByte, llave);
+                //PrintWriter out = new PrintWriter("filename.txt");
+                //String mensajeDescifradoString = DatatypeConverter.printBase64Binary(mensajeDescifrado);
+                //out.println(mensajeDescifradoString);
+                //out.close();
+
+                //SecretKey llaveSimetrica = keyGenGenerator();
+                //System.out.println("longitud llave sim: "+llaveSimetrica.getEncoded().length);
+                //System.out.println("longitud llave: "+llave.getEncoded().length);
+                //System.out.println("longitud llave sim string: "+llaveSimetrica.toString());
+                //System.out.println("longitud llave string: "+llave.toString());
+                //byte[] mensajeDescifrado = symmetricEncryption(mensajeByte, llaveSimetrica);
+                //byte[] m2 = DatatypeConverter.parseBase64Binary(mensajeDescifradoString);
+                //byte[] mD2 = symmetricDecryption(m2, llave);
+                //System.out.println("mensaje descifradooo inverso: "+new String(mD2));
+
+                byte[] mensajeDescifrado = symmetricDecryption(mensajeByte, llave);
+                String mensajeDescifradoString = new String(mensajeDescifrado);
+                System.out.println("mensaje descifrado: "+ mensajeDescifradoString);
+
                 ObjectMapper mapper = new ObjectMapper();
-                nMedida = mapper.valueToTree(mensajeDescifrado);
+                nMedida = mapper.valueToTree(mensajeDescifradoString);
                 //String primerSplit = mensajeDescifrado.split(":")[1];
                 //String segundoSplit = primerSplit.split(":")[1];
                 //int valor = Integer.parseInt(primerSplit.split(",")[0]);
@@ -208,9 +230,29 @@ public class SensorController extends Controller  {
     public static byte[] symmetricEncryption (byte[] msg, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
         byte[] initVector = DatatypeConverter.parseHexBinary("0000000000000000");
         IvParameterSpec iv = new IvParameterSpec(initVector);
-        Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+        Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, key, iv);
         return cipher.doFinal(msg);
+    }
+
+    public static byte[] symmetricDecryption (byte[] msg, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
+        byte[] initVector = DatatypeConverter.parseHexBinary("0000000000000000");
+        IvParameterSpec iv = new IvParameterSpec(initVector);
+        Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, key, iv);
+        return cipher.doFinal(msg);
+    }
+
+    public static SecretKey keyGenGenerator() throws NoSuchAlgorithmException {
+
+        int tamLlave = 56;
+
+        KeyGenerator keyGen;
+        SecretKey key;
+        keyGen = KeyGenerator.getInstance("DES");
+        keyGen.init(tamLlave);
+        key = keyGen.generateKey();
+        return key;
     }
 
     @Restrict(@Group(Application.USER_ROLE))
