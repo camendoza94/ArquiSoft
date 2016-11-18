@@ -22,6 +22,7 @@ import play.mvc.Result;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -175,50 +176,50 @@ public class SensorController extends Controller  {
         byte[] mensajeByte = DatatypeConverter.parseBase64Binary(mensajeString);
         byte[] hmacByte = DatatypeConverter.parseBase64Binary(hmacString);
 
-        boolean esIntegro = false;
-
-        //TODO mirar si es integro
-        esIntegro = true; //quitar
-//        try {
-//            byte[] hmacDescifrado = symmetricEncryption(hmacByte, llave);
-//            System.out.println("hmac descifradooo: "+new String(hmacDescifrado));
-//        } catch (Exception e) {
-//            //jmm
-//        }
-
         JsonNode nMedida = null;
 
-        if(esIntegro){
-            try {
-                //byte[] mensajeDescifrado = symmetricEncryption(jsonstringByte, llave);
-                //PrintWriter out = new PrintWriter("filename.txt");
-                //String mensajeDescifradoString = DatatypeConverter.printBase64Binary(mensajeDescifrado);
-                //out.println(mensajeDescifradoString);
-                //out.close();
+        try {
+            //byte[] mensajeDescifrado = symmetricEncryption(jsonstringByte, llave);
+            //PrintWriter out = new PrintWriter("filename.txt");
+            //String mensajeDescifradoString = DatatypeConverter.printBase64Binary(mensajeDescifrado);
+            //out.println(mensajeDescifradoString);
+            //out.close();
 
-                //SecretKey llaveSimetrica = keyGenGenerator();
-                //System.out.println("longitud llave sim: "+llaveSimetrica.getEncoded().length);
-                //System.out.println("longitud llave: "+llave.getEncoded().length);
-                //System.out.println("longitud llave sim string: "+llaveSimetrica.toString());
-                //System.out.println("longitud llave string: "+llave.toString());
-                //byte[] mensajeDescifrado = symmetricEncryption(mensajeByte, llaveSimetrica);
-                //byte[] m2 = DatatypeConverter.parseBase64Binary(mensajeDescifradoString);
-                //byte[] mD2 = symmetricDecryption(m2, llave);
-                //System.out.println("mensaje descifradooo inverso: "+new String(mD2));
+            //SecretKey llaveSimetrica = keyGenGenerator();
+            //System.out.println("longitud llave sim: "+llaveSimetrica.getEncoded().length);
+            //System.out.println("longitud llave: "+llave.getEncoded().length);
+            //System.out.println("longitud llave sim string: "+llaveSimetrica.toString());
+            //System.out.println("longitud llave string: "+llave.toString());
+            //byte[] mensajeDescifrado = symmetricEncryption(mensajeByte, llaveSimetrica);
+            //byte[] m2 = DatatypeConverter.parseBase64Binary(mensajeDescifradoString);
+            //byte[] mD2 = symmetricDecryption(m2, llave);
+            //System.out.println("mensaje descifradooo inverso: "+new String(mD2));
 
-                byte[] mensajeDescifrado = symmetricDecryption(mensajeByte, llave);
-                String mensajeDescifradoString = new String(mensajeDescifrado);
-                System.out.println("mensaje descifrado: "+ mensajeDescifradoString);
+            byte[] mensajeDescifrado = symmetricDecryption(mensajeByte, llave);
+            String mensajeDescifradoString = new String(mensajeDescifrado);
+            System.out.println("mensaje descifrado: "+ mensajeDescifradoString);
 
-                ObjectMapper mapper = new ObjectMapper();
-                nMedida = mapper.readTree(mensajeDescifradoString);
+            ObjectMapper mapper = new ObjectMapper();
+            nMedida = mapper.readTree(mensajeDescifradoString);
 
-                //System.out.println("sirvio json valor: "+ nMedida.get("valor").toString());
-                //System.out.println("sirvio json fecha: "+ nMedida.get("fecha").toString());
-            } catch (Exception e) {
-                //e.printStackTrace();
+            //System.out.println("sirvio json valor: "+ nMedida.get("valor").toString());
+            //System.out.println("sirvio json fecha: "+ nMedida.get("fecha").toString());
+
+            //byte[] hashPrueba = hmacDigest(mensajeDescifrado, llave);
+            //String hashPruebaString = DatatypeConverter.printBase64Binary(hashPrueba);
+            //PrintWriter out = new PrintWriter("filename.txt");
+            //out.println(hashPruebaString);
+            //out.close();
+
+            boolean esIntegro = verificarIntegridad(mensajeDescifrado, llave, hmacByte);
+
+            if(!esIntegro){
                 nMedida = null;
             }
+
+        } catch (Exception e) {
+            //e.printStackTrace();
+            nMedida = null;
         }
 
         return nMedida;
@@ -238,6 +239,28 @@ public class SensorController extends Controller  {
         Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, key, iv);
         return cipher.doFinal(msg);
+    }
+
+    public static boolean verificarIntegridad(byte[] msg, Key key, byte [] hash ) throws Exception {
+        byte [] nuevo = hmacDigest(msg, key);
+
+        if (nuevo.length != hash.length) {
+            return false;
+        }
+        for (int i = 0; i < nuevo.length ; i++) {
+            if (nuevo[i] != hash[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static byte[] hmacDigest(byte[] msg, Key key) throws NoSuchAlgorithmException, InvalidKeyException, IllegalStateException, UnsupportedEncodingException {
+        Mac mac = Mac.getInstance("HMACSHA256");
+        mac.init(key);
+
+        byte[] bytes = mac.doFinal(msg);
+        return bytes;
     }
 
     public static SecretKey keyGenGenerator() throws NoSuchAlgorithmException {
