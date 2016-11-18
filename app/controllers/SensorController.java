@@ -130,14 +130,14 @@ public class SensorController extends Controller  {
         JsonNode nMedida = descifrarJsonMedicion(nMedidaCifrada);
 
         if(nMedida != null){
-            MedicionEntity list = Json.fromJson( nMedida , MedicionEntity.class ) ;
+
+            MedicionEntity list = Json.fromJson(nMedida , MedicionEntity.class);
+
             return CompletableFuture.supplyAsync(
                     ()->{
                         SensorEntity s=SensorEntity.FINDER.byId(id);
-
                         s.addMedicion(list);
                         list.save();
-                        //s.update();
                         return list;
                     }
             ).thenApply(
@@ -211,15 +211,12 @@ public class SensorController extends Controller  {
                 System.out.println("mensaje descifrado: "+ mensajeDescifradoString);
 
                 ObjectMapper mapper = new ObjectMapper();
-                nMedida = mapper.valueToTree(mensajeDescifradoString);
-                //String primerSplit = mensajeDescifrado.split(":")[1];
-                //String segundoSplit = primerSplit.split(":")[1];
-                //int valor = Integer.parseInt(primerSplit.split(",")[0]);
-                //long fecha = Long.parseLong(segundoSplit.split("}")[0]);
-                //ObjectMapper mapper = new ObjectMapper();
-                //nMedida = mapper.valueToTree("{\"valor\":"+valor+"}");
+                nMedida = mapper.readTree(mensajeDescifradoString);
+
+                //System.out.println("sirvio json valor: "+ nMedida.get("valor").toString());
+                //System.out.println("sirvio json fecha: "+ nMedida.get("fecha").toString());
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 nMedida = null;
             }
         }
