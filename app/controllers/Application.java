@@ -27,7 +27,7 @@ public class Application extends Controller {
     public static final String FLASH_MESSAGE_KEY = "message";
     public static final String FLASH_ERROR_KEY = "error";
     public static final String USER_ROLE = "user";
-
+    public static final String ADMIN_ROLE = "admin";
     private final PlayAuthenticate auth;
 
     private final MyUsernamePasswordAuthProvider provider;
@@ -42,7 +42,7 @@ public class Application extends Controller {
         this.userProvider = userProvider;
     }
     /** serve the indexSign page app/views/indexSign.scala.htmlhtml */
-    @Restrict(@Group(Application.USER_ROLE))
+    @Restrict({@Group(Application.USER_ROLE), @Group(Application.ADMIN_ROLE)})
     public Result indexSign( String any) {
     return ok(indexSign.render(this.userProvider));
   }
@@ -120,10 +120,7 @@ public class Application extends Controller {
     }
 
 
-
-
-
-    @Restrict(@Group(Application.USER_ROLE))
+    @Restrict(@Group({Application.ADMIN_ROLE,Application.USER_ROLE}))
     public Result profile() {
         final UsuarioEntity localUser = userProvider.getUser(session());
         return ok(profile.render(this.auth, this.userProvider, localUser));

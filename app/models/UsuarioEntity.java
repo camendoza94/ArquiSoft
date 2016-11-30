@@ -7,6 +7,7 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.*;
+import controllers.Application;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import be.objectify.deadbolt.java.models.Permission;
@@ -182,10 +183,16 @@ public class UsuarioEntity extends Model implements Subject {
 
     public static UsuarioEntity create(final AuthUser authUser) {
         final UsuarioEntity user = new UsuarioEntity();
-        user.roles = Collections.singletonList(SecurityRole
-                .findByRoleName(controllers.Application.USER_ROLE));
         // user.permissions = new ArrayList<UserPermission>();
-        // user.permissions.add(UserPermission.findByValue("printers.edit"));
+        if (((EmailIdentity) authUser).getEmail().equals("admin@admin.com")){
+            user.roles = Collections.singletonList(SecurityRole
+                    .findByRoleName(Application.ADMIN_ROLE));
+
+        }else
+        {
+            user.roles = Collections.singletonList(SecurityRole
+                    .findByRoleName(controllers.Application.USER_ROLE));
+        }     // user.permissions.add(UserPermission.findByValue("printers.edit"));
         user.active = true;
         user.lastLogin = new Date();
         user.linkedAccounts = Collections.singletonList(LinkedAccount

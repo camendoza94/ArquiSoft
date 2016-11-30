@@ -1,6 +1,8 @@
 package controllers;
 
 import akka.dispatch.MessageDispatcher;
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import dispatchers.AkkaDispatcher;
 import models.CampoEntity;
@@ -17,6 +19,7 @@ import static play.libs.Json.toJson;
 /**
  * Created by ca.mendoza968 on 30/08/2016.
  */
+@Restrict(@Group(Application.ADMIN_ROLE))
 public class UsuarioController extends Controller {
     /**
      * Obtención de todos los usuarios por generación de petición GET /usuarios

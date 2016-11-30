@@ -18,13 +18,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import static play.libs.Json.toJson;
-@Restrict(@Group(Application.USER_ROLE))
+
 public class PozoController extends Controller {
 
     /**
      * Obtención de todos los campos por generación de petición GET /pozos
      * @return Los pozos
      */
+    @Group({Application.USER_ROLE,Application.ADMIN_ROLE})
     public CompletionStage<Result> getPozos(String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -105,6 +106,7 @@ public class PozoController extends Controller {
      * Creación de un nuevo pozo según los parametros de la petición POST /pozos
      * @return el pozos agregado
      */
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> createPozo(Long id){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nPozo = request().body().asJson();
@@ -129,6 +131,7 @@ public class PozoController extends Controller {
      * @param id
      * @return OK de que el pozo fue borrado
      */
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> deletePozo(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -158,6 +161,7 @@ public class PozoController extends Controller {
      * @param id identificador del pozo a actualizar
      * @return El pozo actualizado
      */
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> updatePozo(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -194,6 +198,7 @@ public class PozoController extends Controller {
      * @param id
      * @return El pozo obtenido
      */
+    @Group({Application.USER_ROLE, Application.ADMIN_ROLE})
     public CompletionStage<Result> getPozo(Long id, String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 

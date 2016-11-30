@@ -43,7 +43,7 @@ import static play.libs.Json.toJson;
  */
 
 public class SensorController extends Controller  {
-    @Restrict(@Group(Application.USER_ROLE))
+    @Group({Application.USER_ROLE, Application.ADMIN_ROLE})
     public CompletionStage<Result> getSensores() {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -59,7 +59,8 @@ public class SensorController extends Controller  {
                         }
                 );
     }
-    @Restrict(@Group(Application.USER_ROLE))
+
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> createSensor(Long id){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nSensor = request().body().asJson();
@@ -78,7 +79,8 @@ public class SensorController extends Controller  {
                 }
         );
     }
-    @Restrict(@Group(Application.USER_ROLE))
+
+    @Group({Application.USER_ROLE,Application.ADMIN_ROLE})
     public CompletionStage<Result> getSensor(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -94,7 +96,8 @@ public class SensorController extends Controller  {
                         }
                 );
     }
-    @Restrict(@Group(Application.USER_ROLE))
+
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> deleteSensor(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         return CompletableFuture.
@@ -108,7 +111,8 @@ public class SensorController extends Controller  {
                         sensorEntities -> sensorEntities
                 );
     }
-    @Restrict(@Group(Application.USER_ROLE))
+
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> updateSensor(Long id){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nSensor = request().body().asJson();
@@ -275,7 +279,7 @@ public class SensorController extends Controller  {
         return key;
     }
 
-    @Restrict(@Group(Application.USER_ROLE))
+    @Group({Application.USER_ROLE, Application.ADMIN_ROLE})
     public CompletionStage<Result> getMedida(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -291,7 +295,8 @@ public class SensorController extends Controller  {
                         }
                 );
     }
-    @Restrict(@Group(Application.USER_ROLE))
+
+    @Group({Application.USER_ROLE,Application.ADMIN_ROLE})
     public CompletionStage<Result> getMedidas() {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -307,7 +312,8 @@ public class SensorController extends Controller  {
                         }
                 );
     }
-    @Restrict(@Group(Application.USER_ROLE))
+
+    @Group({Application.USER_ROLE,Application.ADMIN_ROLE})
     public CompletionStage<Result> getMedidasSensor(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         return CompletableFuture.
@@ -322,7 +328,8 @@ public class SensorController extends Controller  {
                         }
                 );
     }
-    @Restrict(@Group(Application.USER_ROLE))
+
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> deleteMedida(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         return CompletableFuture.
@@ -336,7 +343,8 @@ public class SensorController extends Controller  {
                         sensorEntities -> sensorEntities
                 );
     }
-    @Restrict(@Group(Application.USER_ROLE))
+
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> updateMedicion(Long id){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nMedicion = request().body().asJson();

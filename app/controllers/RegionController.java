@@ -17,13 +17,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import static play.libs.Json.toJson;
-@Restrict(@Group(Application.USER_ROLE))
+
 public class RegionController extends Controller {
 
     /**
      * Obtención de todos los regiones por generación de petición GET /regiones
      * @return Los regiones
      */
+    @Group({Application.USER_ROLE,Application.ADMIN_ROLE})
     public CompletionStage<Result> getRegiones() {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -45,6 +46,7 @@ public class RegionController extends Controller {
      * Creación de un nuevo region según los parametros de la petición POST /regiones
      * @return el region agregado
      */
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> createRegion(){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nItem = request().body().asJson();
@@ -66,6 +68,7 @@ public class RegionController extends Controller {
      * @param id
      * @return OK de que el region fue borrado
      */
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> deleteRegion(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -95,6 +98,7 @@ public class RegionController extends Controller {
      * @param id identificador del region a actualizar
      * @return El region actualizado
      */
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> updateRegion(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -131,6 +135,7 @@ public class RegionController extends Controller {
      * @param id
      * @return El region obtenido
      */
+    @Group({Application.ADMIN_ROLE,Application.USER_ROLE})
     public CompletionStage<Result> getRegion(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -152,6 +157,7 @@ public class RegionController extends Controller {
      * Hace el map reduce de los sensores para ver cual envía info más frecuentemente
      * @return el id del sensor
      */
+    @Group({Application.ADMIN_ROLE,Application.USER_ROLE})
     public SensorEntity mapReduceSensores(List<SensorEntity> sensorEntities) {
 
         List<Long> frecuencias_reduce = new ArrayList<Long>();
@@ -217,6 +223,7 @@ public class RegionController extends Controller {
         }
     }
 
+    @Group({Application.ADMIN_ROLE, Application.ADMIN_ROLE})
     public CompletionStage<Result> getSensorMasFrecuente(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 

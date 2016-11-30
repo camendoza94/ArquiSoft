@@ -18,13 +18,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import static play.libs.Json.toJson;
-@Restrict(@Group(Application.USER_ROLE))
 public class CampoController extends Controller {
 
     /**
      * Obtención de todos los campos por generación de petición GET /campos
      * @return Los campos
      */
+
+    @Group({Application.USER_ROLE,Application.ADMIN_ROLE})
     public CompletionStage<Result> getCampos(String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -104,6 +105,8 @@ public class CampoController extends Controller {
      * Creación de un nuevo campo según los parametros de la petición POST /campos
      * @return el campo agregado
      */
+
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> createCampo(Long id){
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
         JsonNode nItem = request().body().asJson();
@@ -128,6 +131,8 @@ public class CampoController extends Controller {
      * @param id
      * @return OK de que el campo fue borrado
      */
+
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> deleteCampo(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -157,6 +162,7 @@ public class CampoController extends Controller {
      * @param id identificador del campo a actualizar
      * @return El campo actualizado
      */
+    @Restrict(@Group(Application.ADMIN_ROLE))
     public CompletionStage<Result> updateCampo(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -193,6 +199,7 @@ public class CampoController extends Controller {
      * @param id
      * @return El campo obtenido
      */
+    @Group({Application.ADMIN_ROLE, Application.USER_ROLE})
     public CompletionStage<Result> getCampo(Long id, String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
