@@ -32,10 +32,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="medicion in sensor.mediciones| orderBy:['nombre','latitud', longitud]">
+                                <tr ng-repeat="medicion in filteredMediciones| orderBy:['nombre','latitud', longitud]">
                                     <td class="pad">{{medicion.fecha | date : "medium" }} </td>
                                     <td> {{medicion.valor}}</td>
                                 </tr>
+                                <pagination
+                                        ng-model="currentPage"
+                                        total-items="mediciones.length"
+                                        max-size="maxSize"
+                                        boundary-links="true">
+                                </pagination>
                                 </tbody>
                             </table>
                         </div>

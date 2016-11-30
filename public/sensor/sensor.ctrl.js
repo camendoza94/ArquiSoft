@@ -54,7 +54,8 @@
             $scope.sensorSinMediciones = {
                 "id":$scope.sensor.id,
                 "nombre":$scope.sensor.nombre,
-                "tipo":$scope.sensor.tipo
+                "tipo":$scope.sensor.tipo,
+                "mediciones": $scope.sensor.mediciones
             };
             UpdateSensor.update($scope.sensorSinMediciones); // $scope.celebrity comes from the detailForm in public/html/detail.html
             $timeout(function() { $scope.go('/sensor'); }); // go back to public/html/main.html
@@ -70,5 +71,20 @@
             $scope.sensor.tipo=$scope.tipos.indexOf(e);
         };
     }]);
+
+    mod.controller("paginacionController", function($scope) {
+        $scope.filteredMediciones = []
+            ,$scope.currentPage = 1
+            ,$scope.numPerPage = 10
+            ,$scope.maxSize = 5;
+
+
+        $scope.$watch("currentPage + numPerPage", function() {
+            var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+                , end = begin + $scope.numPerPage;
+
+            $scope.filteredMediciones = $scope.sensor.mediciones.slice(begin, end);
+        });
+    });
 
 })(window.angular)
