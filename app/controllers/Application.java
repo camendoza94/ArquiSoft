@@ -12,6 +12,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.feth.play.module.pa.PlayAuthenticate;
 import models.UsuarioEntity;
+import play.Logger;
 import play.Play;
 import play.data.Form;
 import play.mvc.Controller;
@@ -132,9 +133,11 @@ public class Application extends Controller {
 
     public Result doLogin() {
         com.feth.play.module.pa.controllers.Authenticate.noCache(response());
+
         final Form<MyUsernamePasswordAuthProvider.MyLogin> filledForm = this.provider.getLoginForm()
                 .bindFromRequest();
-        if (filledForm.hasErrors()) {
+        Logger.info(filledForm.data().toString());
+        if (filledForm.hasErrors() || !filledForm.data().isEmpty()) {
             // User did not fill everything properly
             return badRequest(login.render(this.auth, this.userProvider, filledForm));
         } else {
