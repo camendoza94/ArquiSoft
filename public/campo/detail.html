@@ -19,14 +19,14 @@
                     <label class="control-label" for="latitud">Latitud</label>
                     <input type="number" class="form-control" id="latitud" name="latitud" data-ng-model="campo.latitud" placeholder="Introduzca la latitud" required>
                     <span data-ng-show="detailForm.latitud.$error.required" class="help-inline">Requerido</span>
-                    <span data-ng-show="detailForm.latitud.$error.number" class="help-inline">No es un número</span>
+                    <span data-ng-show="detailForm.latitud.$error.number" class="help-inline">No es un numero</span>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label" for="longitud">Longitud</label>
                     <input type="number" class="form-control" id="longitud" name="longitud" data-ng-model="campo.longitud" placeholder="Introduzca la longitud" required>
                     <span data-ng-show="detailForm.longitud.$error.required" class="help-inline">Requerido</span>
-                    <span data-ng-show="detailForm.longitud.$error.number" class="help-inline">No es un número</span>
+                    <span data-ng-show="detailForm.longitud.$error.number" class="help-inline">No es un numero</span>
                 </div>
 
                 <div class="control-group" data-ng-show ="campo.id">
@@ -37,7 +37,7 @@
                         <tr>
                             <th data-ng-show="campo.pozos.length > 0">ID</th>
                             <th data-ng-show="campo.pozos.length > 0">Estado</th>
-                            <th data-ng-show="campo.pozos.length == 0">Todavía no hay pozos para esta región. ¡Agrega uno!</th>
+                            <th data-ng-show="campo.pozos.length == 0">Todavia no hay pozos para esta region. ¡Agrega uno!</th>
                             <th><a href="/campo/{{campo.id}}/pozo/create"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
                         </tr>
                         </thead>
