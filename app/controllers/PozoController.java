@@ -25,7 +25,7 @@ public class PozoController extends Controller {
      * Obtención de todos los campos por generación de petición GET /pozos
      * @return Los pozos
      */
-    @Group({Application.USER_ROLE,Application.ADMIN_ROLE})
+    @Restrict({@Group(Application.USER_ROLE), @Group(Application.ADMIN_ROLE)})
     public CompletionStage<Result> getPozos(String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -198,7 +198,7 @@ public class PozoController extends Controller {
      * @param id
      * @return El pozo obtenido
      */
-    @Group({Application.USER_ROLE, Application.ADMIN_ROLE})
+    @Restrict({@Group(Application.USER_ROLE), @Group(Application.ADMIN_ROLE)})
     public CompletionStage<Result> getPozo(Long id, String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 

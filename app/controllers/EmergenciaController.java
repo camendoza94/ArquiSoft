@@ -22,7 +22,7 @@ import static play.libs.Json.toJson;
 /**
  * Clase controladora de la lista de deseos
  */
-@Group({Application.USER_ROLE,Application.ADMIN_ROLE} )
+@Restrict({@Group(Application.USER_ROLE), @Group(Application.ADMIN_ROLE)})
 public class EmergenciaController extends SensorController  {
 
     public CompletionStage<Result> addEmergencia(Long id){

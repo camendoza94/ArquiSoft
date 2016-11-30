@@ -25,7 +25,7 @@ public class CampoController extends Controller {
      * @return Los campos
      */
 
-    @Group({Application.USER_ROLE,Application.ADMIN_ROLE})
+    @Restrict({@Group(Application.USER_ROLE), @Group(Application.ADMIN_ROLE)})
     public CompletionStage<Result> getCampos(String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -199,7 +199,7 @@ public class CampoController extends Controller {
      * @param id
      * @return El campo obtenido
      */
-    @Group({Application.ADMIN_ROLE, Application.USER_ROLE})
+    @Restrict({@Group(Application.USER_ROLE), @Group(Application.ADMIN_ROLE)})
     public CompletionStage<Result> getCampo(Long id, String periodo) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 

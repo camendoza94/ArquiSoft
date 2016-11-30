@@ -24,7 +24,7 @@ public class RegionController extends Controller {
      * Obtención de todos los regiones por generación de petición GET /regiones
      * @return Los regiones
      */
-    @Group({Application.USER_ROLE,Application.ADMIN_ROLE})
+    @Restrict({@Group(Application.USER_ROLE), @Group(Application.ADMIN_ROLE)})
     public CompletionStage<Result> getRegiones() {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -135,7 +135,7 @@ public class RegionController extends Controller {
      * @param id
      * @return El region obtenido
      */
-    @Group({Application.ADMIN_ROLE,Application.USER_ROLE})
+    @Restrict({@Group(Application.USER_ROLE), @Group(Application.ADMIN_ROLE)})
     public CompletionStage<Result> getRegion(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
@@ -157,7 +157,7 @@ public class RegionController extends Controller {
      * Hace el map reduce de los sensores para ver cual envía info más frecuentemente
      * @return el id del sensor
      */
-    @Group({Application.ADMIN_ROLE,Application.USER_ROLE})
+    @Restrict({@Group(Application.USER_ROLE), @Group(Application.ADMIN_ROLE)})
     public SensorEntity mapReduceSensores(List<SensorEntity> sensorEntities) {
 
         List<Long> frecuencias_reduce = new ArrayList<Long>();
@@ -223,7 +223,7 @@ public class RegionController extends Controller {
         }
     }
 
-    @Group({Application.ADMIN_ROLE, Application.ADMIN_ROLE})
+    @Restrict({@Group(Application.USER_ROLE), @Group(Application.ADMIN_ROLE)})
     public CompletionStage<Result> getSensorMasFrecuente(Long id) {
         MessageDispatcher jdbcDispatcher = AkkaDispatcher.jdbcDispatcher;
 
