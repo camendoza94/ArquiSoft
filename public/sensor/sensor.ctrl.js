@@ -15,6 +15,18 @@
           //  var mediciones = $resource(apiUrl +"/campos?periodo="+p);
             //$scope.mediciones = mediciones.query();
         //};
+        $scope.filteredMediciones = []
+            ,$scope.currentPage = 1
+            ,$scope.numPerPage = 10
+            ,$scope.maxSize = 5;
+
+
+        $scope.$watch("currentPage + numPerPage", function() {
+            var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+                , end = begin + $scope.numPerPage;
+
+            $scope.filteredMediciones = $scope.sensor.mediciones.slice(begin, end);
+        });
     }]);
 
     // the create controller
@@ -71,20 +83,4 @@
             $scope.sensor.tipo=$scope.tipos.indexOf(e);
         };
     }]);
-
-    mod.controller("paginacionController", function($scope) {
-        $scope.filteredMediciones = []
-            ,$scope.currentPage = 1
-            ,$scope.numPerPage = 10
-            ,$scope.maxSize = 5;
-
-
-        $scope.$watch("currentPage + numPerPage", function() {
-            var begin = (($scope.currentPage - 1) * $scope.numPerPage)
-                , end = begin + $scope.numPerPage;
-
-            $scope.filteredMediciones = $scope.sensor.mediciones.slice(begin, end);
-        });
-    });
-
 })(window.angular)
