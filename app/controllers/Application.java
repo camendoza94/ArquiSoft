@@ -137,7 +137,7 @@ public class Application extends Controller {
         final Form<MyUsernamePasswordAuthProvider.MyLogin> filledForm = this.provider.getLoginForm()
                 .bindFromRequest();
         Logger.info(filledForm.data().toString());
-        if (filledForm.hasErrors() || !filledForm.data().isEmpty()) {
+        if (filledForm.hasErrors() || filledForm.data().isEmpty()) {
             // User did not fill everything properly
             return badRequest(login.render(this.auth, this.userProvider, filledForm));
         } else {
