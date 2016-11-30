@@ -3,8 +3,8 @@
 	<div class="row">
 		<div class="span12">
             <div class="col-md-8 col-md-offset-2">
-                <div data-ng-show="region.id"><h2>Detalles de la región</h2></div>
-                <div data-ng-show="region.id==null"><h2>Agregar región</h2></div>
+                <div data-ng-show="region.id"><h2>Detalles de la region</h2></div>
+                <div data-ng-show="region.id==null"><h2>Agregar region</h2></div>
 
                 <form name="detailForm" role="form" class="form-horizontal">
                     <fieldset>
@@ -16,10 +16,10 @@
 
 
                         <div class="control-group">
-                            <label class="control-label" for="area">Área</label>
-                            <input type="number" class="form-control" id="area" name="area" data-ng-model="region.area" placeholder="Introduzca el área" required>
+                            <label class="control-label" for="area">Area</label>
+                            <input type="number" class="form-control" id="area" name="area" data-ng-model="region.area" placeholder="Introduzca el area" required>
                             <span data-ng-show="detailForm.area.$error.required" class="help-inline">Requerido</span>
-                            <span data-ng-show="detailForm.area.$error.number" class="help-inline">No es un número</span>
+                            <span data-ng-show="detailForm.area.$error.number" class="help-inline">No es un numero</span>
                         </div>
 
                         <div class="control-group" data-ng-show ="region.id">
@@ -32,7 +32,7 @@
                                     <th data-ng-show="region.campos.length > 0">Latitud</th>
 
                                     <th data-ng-show="region.campos.length > 0">Longitud</th>
-                                    <th data-ng-show="region.campos.length == 0">Todavía no hay campos para esta región. ¡Agrega uno!</th>
+                                    <th data-ng-show="region.campos.length == 0">Todavia no hay campos para esta region. ¡Agrega uno!</th>
                                     <th><a href="/region/{{region.id}}/campo/create"><i class="glyphicon glyphicon-plus-sign"></i></a></th>
                                 </tr>
                                 </thead>
